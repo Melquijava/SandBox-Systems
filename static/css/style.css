@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+header {
+    background-color: #252526;
+    padding: 10px 20px;
+    border-bottom: 1px solid #0d82a5;
+    text-align: center;
+    flex-shrink: 0; 
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    font-family: 'Roboto Mono', monospace;
+    color: #61dafb;
+}
+
+header p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.editor-container {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.code-editors {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-right: 2px solid #0d82a5;
+    /* CORREÇÃO 1: Garante que este contêiner não ultrapasse seu limite de altura */
+    min-height: 0;
+}
+
+.editor-pane {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 0;
+    /* CORREÇÃO 2: Garante que o painel individual também não ultrapasse seu limite */
+    min-height: 0;
+}
+
+label {
+    background-color: #2d2d2d;
+    padding: 8px 12px;
+    font-weight: bold;
+    font-family: 'Roboto Mono', monospace;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    color: #ccc;
+    flex-shrink: 0; /* Evita que o label encolha */
+}
+
+/* CORREÇÃO 3: O contêiner direto do CodeMirror precisa crescer e permitir overflow */
+.editor-pane > div {
+    flex-grow: 1;
+    overflow: auto; /* Permite que a div tenha rolagem se necessário */
+}
+
+.CodeMirror {
+    height: 100% !important;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+}
+
+.CodeMirror-gutters {
+    background-color: #282a36 !important;
+}
+
+.preview {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    /* CORREÇÃO 4: A mesma lógica de limite de altura se aplica aqui */
+    min-height: 0;
+}
+
+#preview-frame {
+    flex-grow: 1;
+    border: none;
+    background-color: #fff;
+}
+
+
+/* ======================================= */
+/*          CSS RESPONSIVO (MOBILE)        */
+/* ======================================= */
+@media (max-width: 800px) {
+    body {
+        overflow: auto;
+    }
+
+    .editor-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .code-editors {
+        width: 100%;
+        height: 60vh;
+        border-right: none;
+        border-bottom: 2px solid #0d82a5;
+    }
+
+    .preview {
+        width: 100%;
+        height: 70vh;
+    }
+}

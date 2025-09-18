@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems_BSI Editor</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/83421133?v=4" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>Systems_BSI Editor Front-End</h1>
+        <p>Desenvolvido por RA Corporation</p>
+    </header>
+
+    <div class="editor-container">
+        <div class="code-editors">
+            <div class="editor-pane">
+                <label>HTML</label>
+                <div id="html-editor"></div>
+            </div>
+            <div class="editor-pane">
+                <label>CSS</label>
+                <div id="css-editor"></div>
+            </div>
+            <div class="editor-pane">
+                <label>JavaScript</label>
+                <div id="js-editor"></div>
+            </div>
+        </div>
+        
+        <div class="preview">
+            <label>Preview</label>
+            <iframe id="preview-frame"></iframe>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
