@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Systems_BSI Editor</title>
 
+    <!-- CSS do CodeMirror e Tema Dracula -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
-    
+
+    <!-- Nosso CSS customizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/83421133?v=4" type="image/x-icon">
 </head>
-<body>
-    <header>
-        <h1>Systems_BSI Editor Front-End</h1>
-        <p>Desenvolvido por RA Corporation</p>
+<!-- A MUDANÇA 1 COMEÇA AQUI -->
+
+<body class="editor-body">
+
+    <!-- A MUDANÇA 2 COMEÇA AQUI -->
+    <header class="editor-header">
+        <div>
+            <h1>Systems_BSI Editor</h1>
+            <p>Desenvolvido por RA Corporation</p>
+        </div>
+        <div class="user-actions">
+            <span>Bem-vindo, {{ username }}!</span>
+            <button id="save-button">Salvar Projeto</button>
+
+            <!-- AQUI ESTÁ A MUDANÇA: Adicionamos o novo link -->
+            <a href="{{ url_for('dashboard') }}">Voltar ao Dashboard</a>
+
+            <a href="{{ url_for('logout') }}">Sair</a>
+        </div>
     </header>
 
     <div class="editor-container">
@@ -32,18 +50,21 @@
                 <div id="js-editor"></div>
             </div>
         </div>
-        
+
         <div class="preview">
             <label>Preview</label>
             <iframe id="preview-frame"></iframe>
         </div>
     </div>
 
+    <!-- Scripts do CodeMirror (Core e Módulos de Linguagem) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
-    
+
+    <!-- Nosso Script -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>

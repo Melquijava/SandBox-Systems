@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Systems_BSI Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-body">
+    <header class="dashboard-header">
+        <h1>Dashboard de Projetos</h1>
+        <div class="user-info">
+            <span>Bem-vindo, {{ username }}!</span>
+            <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <a href="{{ url_for('editor') }}" class="new-project-button">
+            + Criar Novo Projeto
+        </a>
+
+        <h2>Meus Projetos</h2>
+        <div class="project-grid">
+            {% for project_id, project in projects.items() %}
+            <div class="project-card">
+                <h3>{{ project.name }}</h3>
+                <div class="share-section">
+                    <input type="text" readonly value="{{ url_for('view', project_id=project_id, _external=True) }}">
+                    <button class="copy-button">Copiar Link</button>
+                </div>
+            </div>
+            {% else %}
+            <p>Você ainda não tem projetos salvos. Crie um novo!</p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.copy-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const input = e.target.previousElementSibling;
+                input.select();
+                navigator.clipboard.writeText(input.value).then(() => {
+                    e.target.textContent = 'Copiado!';
+                    setTimeout(() => e.target.textContent = 'Copiar Link', 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

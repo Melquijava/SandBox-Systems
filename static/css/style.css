@@ -1,35 +1,229 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;700&display=swap');
+/* =================================================================== */
+/*             STYLESHEET COMPLETO - SYSTEMS_BSI EDITOR                */
+/* =================================================================== */
 
+/* --- VARIAVEIS GLOBAIS DE COR (Identidade Visual) --- */
+:root {
+    --primary-color: #61dafb;
+    --dark-bg: #1e1e1e;
+    --medium-bg: #252526;
+    --dark-border: #0d82a5;
+    --text-light: #d4d4d4;
+    --text-dark: #20232a;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+}
+
+/* --- ESTILOS GLOBAIS --- */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
-    background-color: #1e1e1e;
-    color: #d4d4d4;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* =================================================================== */
+/*                  TELA DE LOGIN E REGISTRO (MELHORADA)               */
+/* =================================================================== */
+
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.auth-card {
+    background-color: var(--medium-bg);
+    padding: 40px 50px;
+    border-radius: 12px;
+    border: 1px solid var(--dark-border);
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.auth-card h1 { 
+    color: var(--primary-color); 
+    font-family: 'Roboto Mono', monospace;
+    font-size: 2em; 
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+.auth-card input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    font-size: 1em;
+}
+.auth-card button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: var(--text-dark);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+}
+.auth-card button:hover { 
+    background-color: white; 
+}
+.auth-card a { 
+    color: var(--primary-color); 
+    text-decoration: none; 
+}
+.auth-card p {
+    margin-top: 25px;
+}
+
+/* Mensagens de feedback (flash) */
+.flash { padding: 10px; margin-bottom: 15px; border-radius: 5px; font-weight: bold; }
+.flash.success { background-color: var(--success-color); }
+.flash.danger { background-color: var(--danger-color); }
+.flash.warning { background-color: var(--warning-color); color: var(--text-dark); }
+
+/* =================================================================== */
+/*                        DASHBOARD DE PROJETOS                        */
+/* =================================================================== */
+
+.dashboard-body { 
+    overflow-x: hidden; 
+}
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--medium-bg);
+    border-bottom: 1px solid var(--dark-border);
+}
+.dashboard-header h1 {
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+}
+.user-info .logout-button {
+    margin-left: 20px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+.dashboard-container {
+    padding: 40px;
+}
+.dashboard-container h2 {
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+}
+.new-project-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--text-dark);
+    padding: 15px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    font-size: 1.2em;
+    transition: transform 0.2s;
+}
+.new-project-button:hover { 
+    transform: scale(1.05); 
+}
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+.project-card {
+    background-color: var(--medium-bg);
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    transition: border-color 0.2s;
+}
+.project-card:hover {
+    border-color: var(--primary-color);
+}
+.project-card h3 { 
+    margin-top: 0; 
+    color: var(--primary-color); 
+}
+.share-section {
+    display: flex;
+    gap: 10px;
+}
+.share-section input {
+    flex-grow: 1;
+    background-color: var(--dark-bg);
+    color: #888;
+    border: 1px solid #444;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+.share-section button {
+    padding: 8px 12px;
+    background: #444;
+    color: var(--text-light);
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* =================================================================== */
+/*                       TELA DO EDITOR DE CÓDIGO                      */
+/* =================================================================== */
+
+body.editor-body {
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: hidden; 
 }
-
-header {
-    background-color: #252526;
+header.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px 20px;
-    border-bottom: 1px solid #0d82a5;
-    text-align: center;
+    background-color: var(--medium-bg);
+    border-bottom: 1px solid var(--dark-border);
     flex-shrink: 0; 
 }
-
-header h1 {
+.editor-header h1 {
     margin: 0;
     font-size: 1.5em;
     font-family: 'Roboto Mono', monospace;
-    color: #61dafb;
+    color: var(--primary-color);
 }
-
-header p {
+.editor-header p {
     margin: 5px 0 0;
     font-size: 0.9em;
     color: #888;
+}
+.user-actions #save-button {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.user-actions a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-left: 15px;
 }
 
 .editor-container {
@@ -37,25 +231,24 @@ header p {
     flex-grow: 1;
     overflow: hidden;
 }
-
 .code-editors {
     display: flex;
     flex-direction: column;
     width: 50%;
-    border-right: 2px solid #0d82a5;
-    /* CORREÇÃO 1: Garante que este contêiner não ultrapasse seu limite de altura */
+    border-right: 2px solid var(--dark-border);
     min-height: 0;
 }
-
 .editor-pane {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    flex-basis: 0;
-    /* CORREÇÃO 2: Garante que o painel individual também não ultrapasse seu limite */
+    flex-basis: 0; 
     min-height: 0;
 }
-
+.editor-pane > div {
+    flex-grow: 1;
+    overflow: auto;
+}
 label {
     background-color: #2d2d2d;
     padding: 8px 12px;
@@ -64,13 +257,7 @@ label {
     border-top: 1px solid #333;
     border-bottom: 1px solid #333;
     color: #ccc;
-    flex-shrink: 0; /* Evita que o label encolha */
-}
-
-/* CORREÇÃO 3: O contêiner direto do CodeMirror precisa crescer e permitir overflow */
-.editor-pane > div {
-    flex-grow: 1;
-    overflow: auto; /* Permite que a div tenha rolagem se necessário */
+    flex-shrink: 0;
 }
 
 .CodeMirror {
@@ -78,7 +265,6 @@ label {
     font-family: 'Roboto Mono', monospace;
     font-size: 14px;
 }
-
 .CodeMirror-gutters {
     background-color: #282a36 !important;
 }
@@ -87,39 +273,43 @@ label {
     width: 50%;
     display: flex;
     flex-direction: column;
-    /* CORREÇÃO 4: A mesma lógica de limite de altura se aplica aqui */
     min-height: 0;
 }
-
 #preview-frame {
     flex-grow: 1;
     border: none;
     background-color: #fff;
 }
 
-
-/* ======================================= */
-/*          CSS RESPONSIVO (MOBILE)        */
-/* ======================================= */
+/* =================================================================== */
+/*                          DESIGN RESPONSIVO                          */
+/* =================================================================== */
 @media (max-width: 800px) {
-    body {
+    /* Ajustes no Editor para telas pequenas */
+    body.editor-body {
         overflow: auto;
     }
-
     .editor-container {
         flex-direction: column;
         height: auto;
     }
-
     .code-editors {
         width: 100%;
         height: 60vh;
         border-right: none;
-        border-bottom: 2px solid #0d82a5;
+        border-bottom: 2px solid var(--dark-border);
     }
-
     .preview {
         width: 100%;
         height: 70vh;
+    }
+
+    /* Ajustes no Dashboard para telas pequenas */
+    .dashboard-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .dashboard-container {
+        padding: 20px;
     }
 }

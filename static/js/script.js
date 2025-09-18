@@ -99,3 +99,45 @@ button.addEventListener('click', () => {
     jsEditor.setValue(initialJS);
 
 });
+
+// ... (todo o seu código do CodeMirror)
+
+// Funcionalidade de Salvar Projeto
+const saveButton = document.getElementById('save-button');
+
+saveButton.addEventListener('click', async () => {
+    const projectName = prompt("Digite um nome para o seu projeto:");
+
+    if (!projectName) {
+        alert("O salvamento foi cancelado.");
+        return;
+    }
+
+    const projectData = {
+        name: projectName,
+        html: htmlEditor.getValue(),
+        css: cssEditor.getValue(),
+        js: jsEditor.getValue()
+    };
+
+    try {
+        const response = await fetch('/api/projects', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(projectData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(result.message);
+        } else {
+            alert(`Erro ao salvar: ${result.error}`);
+        }
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Ocorreu um erro de conexão ao tentar salvar.");
+    }
+});

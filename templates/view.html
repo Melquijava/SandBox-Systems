@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ project.name }} - Visualização</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+    <!-- 
+        A MÁGICA ESTÁ AQUI:
+        Passamos os dados do projeto para um atributo 'data-project'.
+        O filtro 'tojson' garante que o JSON seja formatado como uma string HTML segura.
+    -->
+    <iframe id="preview-frame" data-project="{{ project|tojson|forceescape }}"></iframe>
+
+    <script>
+        const previewFrame = document.getElementById('preview-frame');
+
+        // 1. Pega a string JSON do atributo 'data-project'
+        const projectJson = previewFrame.dataset.project;
+        
+        // 2. Converte a string JSON de volta para um objeto JavaScript
+        const project = JSON.parse(projectJson);
+
+        const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+
+        // 3. Escreve o HTML e CSS (agora o código está limpo)
+        previewDoc.open();
+        previewDoc.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>${project.css}</style>
+            </head>
+            <body>
+                ${project.html}
+            </body>
+            </html>
+        `);
+        previewDoc.close();
+
+        // 4. Anexa o script de forma segura (igual a antes)
+        const scriptTag = previewDoc.createElement('script');
+        scriptTag.textContent = project.js;
+        previewDoc.body.appendChild(scriptTag);
+    </script>
+</body>
+</html>
