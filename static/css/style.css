@@ -87,7 +87,6 @@ body {
     margin-top: 25px;
 }
 
-/* Mensagens de feedback (flash) */
 .flash { padding: 10px; margin-bottom: 15px; border-radius: 5px; font-weight: bold; }
 .flash.success { background-color: var(--success-color); }
 .flash.danger { background-color: var(--danger-color); }
@@ -285,7 +284,6 @@ label {
 /*                          DESIGN RESPONSIVO                          */
 /* =================================================================== */
 @media (max-width: 800px) {
-    /* Ajustes no Editor para telas pequenas */
     body.editor-body {
         overflow: auto;
     }
@@ -304,7 +302,6 @@ label {
         height: 70vh;
     }
 
-    /* Ajustes no Dashboard para telas pequenas */
     .dashboard-header {
         flex-direction: column;
         gap: 10px;
@@ -341,31 +338,31 @@ label {
     color: var(--text-dark);
 }
 .edit-button {
-    background-color: #ffc107; /* Amarelo */
+    background-color: #0099ff; 
     color: var(--text-dark);
 }
 .share-button {
-    background-color: #17a2b8; /* Ciano */
+    background-color: #0099ff; 
     color: white;
 }
 .delete-button {
-    background-color: #dc3545; /* Vermelho */
+    background-color: #ff0019; 
     color: white;
 }
 
 /* --- ESTILOS PARA A PRÉVIA DO PROJETO NO DASHBOARD --- */
 .project-card {
     display: flex;
-    flex-direction: column; /* Organiza o conteúdo do card verticalmente */
+    flex-direction: column;
 }
 
 .preview-container {
     width: 100%;
-    height: 180px; /* Altura da prévia */
+    height: 180px; 
     background-color: #fff;
     border-radius: 5px;
     margin: 15px 0;
-    overflow: hidden; /* Garante que o conteúdo não vaze */
+    overflow: hidden;
     border: 1px solid #444;
 }
 
@@ -373,5 +370,5 @@ label {
     width: 100%;
     height: 100%;
     border: none;
-    pointer-events: none; /* Desativa cliques dentro da prévia para não interferir */
+    pointer-events: none;
 }

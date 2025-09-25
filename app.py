@@ -10,7 +10,6 @@ app.config['SECRET_KEY'] = os.urandom(24)
 VOLUME_PATH = "/data" 
 DATA_FILE = os.path.join(VOLUME_PATH, "users_data.json")
 
-# --- Funções de Dados (sem alteração) ---
 def load_data():
     if not os.path.exists(DATA_FILE): return {}
     try:
@@ -21,12 +20,10 @@ def save_data(data):
     os.makedirs(VOLUME_PATH, exist_ok=True)
     with open(DATA_FILE, 'w') as f: json.dump(data, f, indent=4)
 
-# --- Rotas de Autenticação e Dashboard (sem alteração) ---
 @app.route('/')
 def home():
     return redirect(url_for('login'))
 
-# ... (as rotas /login, /register, /logout, /dashboard, /view, /editor continuam exatamente as mesmas) ...
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
