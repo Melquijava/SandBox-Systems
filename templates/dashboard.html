@@ -22,11 +22,9 @@
         <h2>Meus Projetos</h2>
         <div class="project-grid">
             {% for project_id, project in projects.items() %}
-            <!-- A MUDANÇA 1: Adicionamos o atributo 'data-project' com os dados do projeto -->
             <div class="project-card" data-project="{{ project|tojson|forceescape }}">
                 <h3>{{ project.name }}</h3>
                 
-                <!-- A MUDANÇA 2: Adicionamos o iframe para a prévia -->
                 <div class="preview-container">
                     <iframe class="project-preview-frame" scrolling="no"></iframe>
                 </div>
@@ -44,10 +42,10 @@
         </div>
     </main>
 
-    <!-- A MUDANÇA 3: O JavaScript foi atualizado para renderizar as prévias -->
+    <!-- O SCRIPT COMPLETO E CORRIGIDO ESTÁ AQUI -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- Renderiza as prévias dos projetos ---
+        // --- PARTE 1: Renderiza as prévias de cada projeto ---
         document.querySelectorAll('.project-card').forEach(card => {
             const iframe = card.querySelector('.project-preview-frame');
             const projectDataString = card.dataset.project;
@@ -60,21 +58,44 @@
                 previewDoc.write(`
                     <html>
                     <head><style>${projectData.css}</style></head>
-                    <body style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%;">${projectData.html}</body>
+                    <body style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%; overflow: hidden;">${projectData.html}</body>
                     </html>
                 `);
                 previewDoc.close();
             }
         });
 
-        // --- Lógica para os botões de ação (Excluir e Compartilhar) ---
+        // --- PARTE 2: Adiciona a funcionalidade aos botões de Compartilhar e Excluir ---
         const projectGrid = document.querySelector('.project-grid');
+
         projectGrid.addEventListener('click', async (e) => {
+            // Ação de COMPARTILHAR
             if (e.target.classList.contains('share-button')) {
-                // ... (lógica de compartilhar, sem alteração)
+                const link = e.target.dataset.link;
+                navigator.clipboard.writeText(link).then(() => {
+                    e.target.textContent = 'Copiado!';
+                    setTimeout(() => e.target.textContent = 'Compartilhar', 2000);
+                });
             }
+
+            // Ação de EXCLUIR
             if (e.target.classList.contains('delete-button')) {
-                // ... (lógica de excluir, sem alteração)
+                const projectId = e.target.dataset.projectId;
+                if (confirm('Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.')) {
+                    try {
+                        const response = await fetch(`/api/projects/${projectId}`, {
+                            method: 'DELETE'
+                        });
+                        if (response.ok) {
+                            // Remove o card da tela sem precisar recarregar a página
+                            e.target.closest('.project-card').remove();
+                        } else {
+                            alert('Erro ao excluir o projeto.');
+                        }
+                    } catch (error) {
+                        alert('Erro de conexão ao tentar excluir.');
+                    }
+                }
             }
         });
     });
