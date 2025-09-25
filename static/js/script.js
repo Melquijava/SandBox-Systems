@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createEditor(id, mode) {
         return CodeMirror(document.getElementById(id), {
-            mode: mode,    
-            theme: 'dracula',      
-            lineNumbers: true, 
-            lineWrapping: true,     
-            autoCloseBrackets: true, 
+            mode: mode,
+            theme: 'dracula',
+            lineNumbers: true,
+            lineWrapping: true,
+            autoCloseBrackets: true,
         });
     }
 
@@ -103,46 +103,45 @@ button.addEventListener('click', () => {
 // ... (todo o seu código do CodeMirror)
 
 // Funcionalidade de Salvar Projeto
-    const saveButton = document.getElementById('save-button');
+const saveButton = document.getElementById('save-button');
 
-    // Verifica se o botão "Salvar" realmente existe na página antes de adicionar o evento
-    if (saveButton) {
-        saveButton.addEventListener('click', async () => {
-            const projectName = prompt("Digite um nome para o seu projeto:");
+// Verifica se o botão "Salvar" realmente existe na página antes de adicionar o evento
+if (saveButton) {
+    saveButton.addEventListener('click', async () => {
+        const projectName = prompt("Digite um nome para o seu projeto:");
 
-            if (!projectName || projectName.trim() === "") {
-                alert("O salvamento foi cancelado. É necessário fornecer um nome.");
-                return;
+        if (!projectName || projectName.trim() === "") {
+            alert("O salvamento foi cancelado. É necessário fornecer um nome.");
+            return;
+        }
+
+        const projectData = {
+            name: projectName,
+            html: htmlEditor.getValue(),
+            css: cssEditor.getValue(),
+            js: jsEditor.getValue()
+        };
+
+        try {
+            const response = await fetch('/api/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(projectData)
+            });
+
+            if (response.ok) {
+                alert('Projeto salvo com sucesso!');
+                // Redireciona para o dashboard para ver o projeto salvo
+                window.location.href = '/dashboard';
+            } else {
+                const result = await response.json();
+                alert(`Erro ao salvar: ${result.error}`);
             }
-
-            const projectData = {
-                name: projectName,
-                html: htmlEditor.getValue(),
-                css: cssEditor.getValue(),
-                js: jsEditor.getValue()
-            };
-
-            try {
-                const response = await fetch('/api/projects', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(projectData)
-                });
-
-                if (response.ok) {
-                    alert('Projeto salvo com sucesso!');
-                    // Redireciona para o dashboard para ver o projeto salvo
-                    window.location.href = '/dashboard';
-                } else {
-                    const result = await response.json();
-                    alert(`Erro ao salvar: ${result.error}`);
-                }
-            } catch (error) {
-                console.error("Erro na requisição de salvamento:", error);
-                alert("Ocorreu um erro de conexão ao tentar salvar. Verifique o console para mais detalhes.");
-            }
-        });
-    }
-});
+        } catch (error) {
+            console.error("Erro na requisição de salvamento:", error);
+            alert("Ocorreu um erro de conexão ao tentar salvar. Verifique o console para mais detalhes.");
+        }
+    });
+};
