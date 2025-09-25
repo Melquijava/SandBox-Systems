@@ -103,64 +103,6 @@ button.addEventListener('click', () => {
 // ... (todo o seu código do CodeMirror)
 
 // Funcionalidade de Salvar Projeto
-document.addEventListener('DOMContentLoaded', () => {
-
-    // PARTE 1: INICIALIZAÇÃO DOS EDITORES CODEMIRROR
-    // =================================================
-
-    // Função genérica para criar um editor CodeMirror
-    function createEditor(id, mode) {
-        return CodeMirror(document.getElementById(id), {
-            mode: mode,
-            theme: 'dracula',
-            lineNumbers: true,
-            lineWrapping: true,
-            autoCloseBrackets: true,
-        });
-    }
-
-    // Inicializa os três editores
-    const htmlEditor = createEditor('html-editor', 'xml');
-    const cssEditor = createEditor('css-editor', 'css');
-    const jsEditor = createEditor('js-editor', 'javascript');
-
-    const previewFrame = document.getElementById('preview-frame');
-
-    function updatePreview() {
-        const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-
-        previewDoc.open();
-        previewDoc.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>${cssEditor.getValue()}</style>
-            </head>
-            <body>
-                ${htmlEditor.getValue()}
-            </body>
-            </html>
-        `);
-        previewDoc.close();
-
-        // Anexa o script de forma segura
-        const scriptTag = previewDoc.createElement('script');
-        scriptTag.textContent = jsEditor.getValue();
-        previewDoc.body.appendChild(scriptTag);
-    }
-
-    // Adiciona o evento 'change' para cada editor
-    htmlEditor.on('change', updatePreview);
-    cssEditor.on('change', updatePreview);
-    jsEditor.on('change', updatePreview);
-
-    // Inicializa o preview
-    updatePreview();
-
-
-    // PARTE 2: FUNCIONALIDADE DE SALVAR PROJETO
-    // ==========================================
-
     const saveButton = document.getElementById('save-button');
 
     // Verifica se o botão "Salvar" realmente existe na página antes de adicionar o evento
