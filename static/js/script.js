@@ -2,14 +2,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INICIALIZAÇÃO E LÓGICA DO EDITOR ---
     
+    // Inicializa os três editores
     const htmlEditor = CodeMirror(document.getElementById('html-editor'), { mode: 'xml', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
     const cssEditor = CodeMirror(document.getElementById('css-editor'), { mode: 'css', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
     const jsEditor = CodeMirror(document.getElementById('js-editor'), { mode: 'javascript', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
+    
     const previewFrame = document.getElementById('preview-frame');
     let currentProjectId = null; // Variável para saber se estamos editando
 
-    function updatePreview() { /* ... (função igual a antes) ... */ }
-    // ... (event listeners 'on change' iguais a antes) ...
+    // Função que renderiza o preview
+    function updatePreview() {
+        const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+
+        previewDoc.open();
+        previewDoc.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>${cssEditor.getValue()}</style>
+            </head>
+            <body>
+                ${htmlEditor.getValue()}
+            </body>
+            </html>
+        `);
+        previewDoc.close();
+
+        // Anexa o script de forma segura
+        const scriptTag = previewDoc.createElement('script');
+        scriptTag.textContent = jsEditor.getValue();
+        previewDoc.body.appendChild(scriptTag);
+    }
+
+    // Adiciona os listeners que atualizam o preview em tempo real
+    htmlEditor.on('change', updatePreview);
+    cssEditor.on('change', updatePreview);
+    jsEditor.on('change', updatePreview);
 
     // --- LÓGICA DE CARREGAMENTO PARA EDIÇÃO ---
     async function loadProjectForEditing(projectId) {
@@ -18,11 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) { throw new Error('Projeto não encontrado'); }
             const projectData = await response.json();
             
+            // Preenche os editores com o código do projeto
             htmlEditor.setValue(projectData.html || '');
             cssEditor.setValue(projectData.css || '');
             jsEditor.setValue(projectData.js || '');
             
             currentProjectId = projectId; // Define que estamos em modo de edição
+            
+            // AQUI ESTÁ A CORREÇÃO: Chama a função de preview após carregar os dados
+            updatePreview(); 
+            
         } catch (error) {
             alert('Erro ao carregar o projeto para edição.');
             window.location.href = '/dashboard'; // Volta se der erro
@@ -33,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const projectIdFromUrl = urlParams.get('project_id');
     if (projectIdFromUrl) {
-        loadProjectForEditing(projectIdFromUrl);
+        loadProjectForEditing(projectIdFromUrl); // Carrega o projeto existente
     } else {
         updatePreview(); // Inicia o preview se for um projeto novo
     }
