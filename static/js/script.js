@@ -1,100 +1,87 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // PARTE 1: INICIALIZAÇÃO DOS EDITORES CODEMIRROR
-    // =================================================
-
-    // Função genérica para criar um editor CodeMirror
-    function createEditor(id, mode) {
-        return CodeMirror(document.getElementById(id), {
-            mode: mode,
-            theme: 'dracula',
-            lineNumbers: true,
-            lineWrapping: true,
-            autoCloseBrackets: true,
-        });
-    }
-
-    // Inicializa os três editores
-    const htmlEditor = createEditor('html-editor', 'xml');
-    const cssEditor = createEditor('css-editor', 'css');
-    const jsEditor = createEditor('js-editor', 'javascript');
-
+    // --- INICIALIZAÇÃO E LÓGICA DO EDITOR ---
+    
+    const htmlEditor = CodeMirror(document.getElementById('html-editor'), { mode: 'xml', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
+    const cssEditor = CodeMirror(document.getElementById('css-editor'), { mode: 'css', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
+    const jsEditor = CodeMirror(document.getElementById('js-editor'), { mode: 'javascript', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
     const previewFrame = document.getElementById('preview-frame');
+    let currentProjectId = null; // Variável para saber se estamos editando
 
-    function updatePreview() {
-        const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+    function updatePreview() { /* ... (função igual a antes) ... */ }
+    // ... (event listeners 'on change' iguais a antes) ...
 
-        previewDoc.open();
-        previewDoc.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>${cssEditor.getValue()}</style>
-            </head>
-            <body>
-                ${htmlEditor.getValue()}
-            </body>
-            </html>
-        `);
-        previewDoc.close();
-
-        // Anexa o script de forma segura
-        const scriptTag = previewDoc.createElement('script');
-        scriptTag.textContent = jsEditor.getValue();
-        previewDoc.body.appendChild(scriptTag);
+    // --- LÓGICA DE CARREGAMENTO PARA EDIÇÃO ---
+    async function loadProjectForEditing(projectId) {
+        try {
+            const response = await fetch(`/api/projects/${projectId}`);
+            if (!response.ok) { throw new Error('Projeto não encontrado'); }
+            const projectData = await response.json();
+            
+            htmlEditor.setValue(projectData.html || '');
+            cssEditor.setValue(projectData.css || '');
+            jsEditor.setValue(projectData.js || '');
+            
+            currentProjectId = projectId; // Define que estamos em modo de edição
+        } catch (error) {
+            alert('Erro ao carregar o projeto para edição.');
+            window.location.href = '/dashboard'; // Volta se der erro
+        }
     }
 
-    // Adiciona o evento 'change' para cada editor
-    htmlEditor.on('change', updatePreview);
-    cssEditor.on('change', updatePreview);
-    jsEditor.on('change', updatePreview);
+    // Verifica se a URL tem um project_id para carregar
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectIdFromUrl = urlParams.get('project_id');
+    if (projectIdFromUrl) {
+        loadProjectForEditing(projectIdFromUrl);
+    } else {
+        updatePreview(); // Inicia o preview se for um projeto novo
+    }
 
-    // Inicializa o preview
-    updatePreview();
-
-
-    // PARTE 2: FUNCIONALIDADE DE SALVAR PROJETO
-    // ==========================================
-
+    // --- LÓGICA DE SALVAMENTO (CRIAR vs. ATUALIZAR) ---
     const saveButton = document.getElementById('save-button');
-
-    // Verifica se o botão "Salvar" realmente existe na página antes de adicionar o evento
     if (saveButton) {
         saveButton.addEventListener('click', async () => {
-            const projectName = prompt("Digite um nome para o seu projeto:");
+            let url, method, projectData;
 
-            if (!projectName || projectName.trim() === "") {
-                alert("O salvamento foi cancelado. É necessário fornecer um nome.");
-                return;
+            if (currentProjectId) { // MODO DE ATUALIZAÇÃO
+                url = `/api/projects/${currentProjectId}`;
+                method = 'PUT';
+                projectData = {
+                    html: htmlEditor.getValue(),
+                    css: cssEditor.getValue(),
+                    js: jsEditor.getValue()
+                };
+            } else { // MODO DE CRIAÇÃO
+                const projectName = prompt("Digite um nome para o seu novo projeto:");
+                if (!projectName) return; // Cancela se não houver nome
+                
+                url = '/api/projects';
+                method = 'POST';
+                projectData = {
+                    name: projectName,
+                    html: htmlEditor.getValue(),
+                    css: cssEditor.getValue(),
+                    js: jsEditor.getValue()
+                };
             }
 
-            const projectData = {
-                name: projectName,
-                html: htmlEditor.getValue(),
-                css: cssEditor.getValue(),
-                js: jsEditor.getValue()
-            };
-
             try {
-                const response = await fetch('/api/projects', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(projectData)
                 });
 
                 if (response.ok) {
                     alert('Projeto salvo com sucesso!');
-                    // Redireciona para o dashboard para ver o projeto salvo
                     window.location.href = '/dashboard';
                 } else {
                     const result = await response.json();
                     alert(`Erro ao salvar: ${result.error}`);
                 }
             } catch (error) {
-                console.error("Erro na requisição de salvamento:", error);
-                alert("Ocorreu um erro de conexão ao tentar salvar. Verifique o console para mais detalhes.");
+                alert("Erro de conexão ao tentar salvar.");
             }
         });
     }

@@ -3,7 +3,6 @@ import os
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
-import time # Importamos a biblioteca de tempo
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24) 
@@ -11,40 +10,26 @@ app.config['SECRET_KEY'] = os.urandom(24)
 VOLUME_PATH = "/data" 
 DATA_FILE = os.path.join(VOLUME_PATH, "users_data.json")
 
-# --- Funções de Dados (COM LOGS) ---
+# --- Funções de Dados (sem alteração) ---
 def load_data():
-    """Carrega os dados do arquivo JSON."""
-    print(f"--- [LOG] Tentando carregar dados de: {DATA_FILE}") # Log
-    if not os.path.exists(DATA_FILE):
-        print("--- [LOG] Arquivo não encontrado. Retornando dicionário vazio.") # Log
-        return {}
+    if not os.path.exists(DATA_FILE): return {}
     try:
-        with open(DATA_FILE, 'r') as f:
-            data = json.load(f)
-            print(f"--- [LOG] Dados carregados com sucesso. Usuários: {list(data.keys())}") # Log
-            return data
-    except (json.JSONDecodeError, FileNotFoundError):
-        print("--- [LOG] Erro ao decodificar JSON ou arquivo não encontrado. Retornando dicionário vazio.") # Log
-        return {}
+        with open(DATA_FILE, 'r') as f: return json.load(f)
+    except (json.JSONDecodeError, FileNotFoundError): return {}
 
 def save_data(data):
-    """Salva os dados no arquivo JSON."""
-    print(f"--- [LOG] Tentando salvar dados em: {DATA_FILE}") # Log
     os.makedirs(VOLUME_PATH, exist_ok=True)
-    with open(DATA_FILE, 'w') as f:
-        json.dump(data, f, indent=4)
-    print("--- [LOG] Dados salvos com sucesso.") # Log
+    with open(DATA_FILE, 'w') as f: json.dump(data, f, indent=4)
 
-# --- Rotas (sem alteração na lógica, apenas se beneficiarão dos logs) ---
-
+# --- Rotas de Autenticação e Dashboard (sem alteração) ---
 @app.route('/')
 def home():
     return redirect(url_for('login'))
 
+# ... (as rotas /login, /register, /logout, /dashboard, /view, /editor continuam exatamente as mesmas) ...
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # ... (código existente)
         username = request.form['username']
         password = request.form['password']
         users_data = load_data()
@@ -58,7 +43,6 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # ... (código existente)
         username = request.form['username']
         password = request.form['password']
         users_data = load_data()
@@ -81,17 +65,12 @@ def logout():
 def dashboard():
     if 'username' not in session:
         return redirect(url_for('login'))
-    
-    print(f"--- [LOG] Rota /dashboard acessada pelo usuário: {session['username']}") # Log
     users_data = load_data()
     user_projects = users_data.get(session['username'], {}).get('projects', {})
-    print(f"--- [LOG] Projetos encontrados para o usuário: {len(user_projects)}") # Log
-    
     return render_template('dashboard.html', projects=user_projects, username=session['username'])
 
 @app.route('/view/<project_id>')
 def view(project_id):
-    # ... (código existente)
     users_data = load_data()
     found_project = None
     for user, data in users_data.items():
@@ -108,18 +87,19 @@ def editor():
         return redirect(url_for('login'))
     return render_template('index.html', username=session['username'])
 
+# --- API PARA GERENCIAMENTO DE PROJETOS (ATUALIZADA) ---
+
 @app.route('/api/projects', methods=['POST'])
-def handle_projects():
+def create_project():
+    """Cria um novo projeto."""
     if 'username' not in session:
         return jsonify({'error': 'Não autorizado'}), 401
 
     username = session['username']
-    print(f"--- [LOG] Rota /api/projects acessada por: {username}") # Log
-    
     users_data = load_data()
-    
     project_data = request.json
     project_name = project_data.get('name')
+    
     if not project_name:
         return jsonify({'error': 'Nome do projeto é obrigatório'}), 400
 
@@ -130,11 +110,40 @@ def handle_projects():
         'css': project_data.get('css', ''),
         'js': project_data.get('js', '')
     }
-    
-    print(f"--- [LOG] Salvando novo projeto '{project_name}' para o usuário '{username}'") # Log
     save_data(users_data)
-    
     return jsonify({'success': True, 'message': 'Projeto salvo!'}), 201
+
+@app.route('/api/projects/<project_id>', methods=['GET', 'PUT', 'DELETE'])
+def handle_project(project_id):
+    """Obtém, atualiza ou deleta um projeto específico."""
+    if 'username' not in session:
+        return jsonify({'error': 'Não autorizado'}), 401
+
+    username = session['username']
+    users_data = load_data()
+    
+    if project_id not in users_data[username]['projects']:
+        return jsonify({'error': 'Projeto não encontrado'}), 404
+
+    # --- OBTER DADOS DO PROJETO (para edição) ---
+    if request.method == 'GET':
+        project = users_data[username]['projects'][project_id]
+        return jsonify(project)
+
+    # --- ATUALIZAR UM PROJETO EXISTENTE ---
+    if request.method == 'PUT':
+        update_data = request.json
+        users_data[username]['projects'][project_id]['html'] = update_data.get('html', '')
+        users_data[username]['projects'][project_id]['css'] = update_data.get('css', '')
+        users_data[username]['projects'][project_id]['js'] = update_data.get('js', '')
+        save_data(users_data)
+        return jsonify({'success': True, 'message': 'Projeto atualizado!'})
+
+    # --- DELETAR UM PROJETO ---
+    if request.method == 'DELETE':
+        del users_data[username]['projects'][project_id]
+        save_data(users_data)
+        return jsonify({'success': True, 'message': 'Projeto deletado!'})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5001)

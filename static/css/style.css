@@ -313,3 +313,42 @@ label {
         padding: 20px;
     }
 }
+
+/* --- ESTILOS PARA OS BOTÕES DE AÇÃO NO DASHBOARD --- */
+.card-actions {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.action-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.action-button:hover {
+    opacity: 0.8;
+}
+
+.view-button {
+    background-color: var(--primary-color);
+    color: var(--text-dark);
+}
+.edit-button {
+    background-color: #ffc107; /* Amarelo */
+    color: var(--text-dark);
+}
+.share-button {
+    background-color: #17a2b8; /* Ciano */
+    color: white;
+}
+.delete-button {
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+}

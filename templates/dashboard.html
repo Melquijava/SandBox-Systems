@@ -24,9 +24,12 @@
             {% for project_id, project in projects.items() %}
             <div class="project-card">
                 <h3>{{ project.name }}</h3>
-                <div class="share-section">
-                    <input type="text" readonly value="{{ url_for('view', project_id=project_id, _external=True) }}">
-                    <button class="copy-button">Copiar Link</button>
+                <!-- NOVO: Seção de Ações com os 4 botões -->
+                <div class="card-actions">
+                    <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
+                    <a href="{{ url_for('editor') }}?project_id={{ project_id }}" class="action-button edit-button">Editar</a>
+                    <button class="action-button share-button" data-link="{{ url_for('view', project_id=project_id, _external=True) }}">Compartilhar</button>
+                    <button class="action-button delete-button" data-project-id="{{ project_id }}">Excluir</button>
                 </div>
             </div>
             {% else %}
@@ -36,16 +39,40 @@
     </main>
 
     <script>
-        document.querySelectorAll('.copy-button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const input = e.target.previousElementSibling;
-                input.select();
-                navigator.clipboard.writeText(input.value).then(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+        const projectGrid = document.querySelector('.project-grid');
+
+        projectGrid.addEventListener('click', async (e) => {
+            // Ação de COMPARTILHAR
+            if (e.target.classList.contains('share-button')) {
+                const link = e.target.dataset.link;
+                navigator.clipboard.writeText(link).then(() => {
                     e.target.textContent = 'Copiado!';
-                    setTimeout(() => e.target.textContent = 'Copiar Link', 2000);
+                    setTimeout(() => e.target.textContent = 'Compartilhar', 2000);
                 });
-            });
+            }
+
+            // Ação de EXCLUIR
+            if (e.target.classList.contains('delete-button')) {
+                const projectId = e.target.dataset.projectId;
+                if (confirm('Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.')) {
+                    try {
+                        const response = await fetch(`/api/projects/${projectId}`, {
+                            method: 'DELETE'
+                        });
+                        if (response.ok) {
+                            // Remove o card da tela sem precisar recarregar a página
+                            e.target.closest('.project-card').remove();
+                        } else {
+                            alert('Erro ao excluir o projeto.');
+                        }
+                    } catch (error) {
+                        alert('Erro de conexão ao tentar excluir.');
+                    }
+                }
+            }
         });
+    });
     </script>
 </body>
 </html>
