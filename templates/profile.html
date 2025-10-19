@@ -25,9 +25,6 @@
                 <h3>Projetos Recentes</h3>
                 {% if projects %}
                     <ul class="recent-projects-list">
-                        <!-- =============================================================== -->
-                        <!-- || CORREÇÃO AQUI: Usando 'sort' e 'slice' em vez de 'classificar' e 'fatia' || -->
-                        <!-- =============================================================== -->
                         {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %}
                         <li><a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a></li>
                         {% endfor %}
