@@ -1,89 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
     <title>Perfil de {{ profile.display_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  </head>
-  <body class="dashboard-body">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-body">
     <div class="profile-page">
-      <header class="profile-main-info">
-        <img src="{{ profile.avatar_url }}" alt="Avatar de {{ profile.display_name }}" class="profile-avatar" />
-        <h1 class="profile-display-name">{{ profile.display_name }}</h1>
-        <p class="profile-bio">{{ profile.bio }}</p>
-        <button class="follow-button">Seguir</button>
-      </header>
+        <!-- Perfil Principal -->
+        <header class="profile-main-info">
+            <img src="{{ profile.avatar_url }}" alt="Avatar de {{ profile.display_name }}" class="profile-avatar">
+            <h1 class="profile-display-name">{{ profile.display_name }}</h1>
+            <p class="profile-bio">{{ profile.bio }}</p>
+            <button class="follow-button">Seguir</button>
+        </header>
 
-      <div class="info-cards-container">
-        <div class="info-card">
-          <h3>Sobre Mim</h3>
-          <p>{{ profile.about_me }}</p>
-        </div>
-        <div class="info-card">
-          <h3>Projetos Recentes</h3>
-          {% if projects %}
-            <ul class="recent-projects-list">
-              {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %}
-                <li>
-                  <a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p>Nenhum projeto público ainda.</p>
-          {% endif %}
-        </div>
-        <div class="info-card">
-          <h3>Estatísticas</h3>
-          <ul class="stats-list">
-            <li>
-              <strong>Projetos:</strong> {{ profile.stats_projects }}
-            </li>
-            <li>
-              <strong>Seguidores:</strong> {{ profile.stats_followers }}
-            </li>
-            <li>
-              <strong>Contribuições GitHub:</strong> {{ profile.stats_github }}
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <main class="dashboard-container">
-        <h2 class="section-title">Galeria de Projetos</h2>
-        <div class="project-grid">
-          {% for project_id, project in projects.items() %}
-            <div class="project-card" data-project="{{ project|tojson|safe }}">
-              <h3>{{ project.name }}</h3>
-              <div class="preview-container">
-                <iframe class="project-preview-frame" scrolling="no"></iframe>
-              </div>
-              <div class="card-actions">
-                <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
-              </div>
+        <!-- Cards de Informação -->
+        <div class="info-cards-container">
+            <div class="info-card">
+                <h3>Sobre Mim</h3>
+                <p>{{ profile.about_me }}</p>
             </div>
-          {% else %}
-            <p>{{ username }} ainda não tornou nenhum projeto público.</p>
-          {% endfor %}
+            <div class="info-card">
+                <h3>Projetos Recentes</h3>
+                {% if projects %}
+                    <ul class="recent-projects-list">
+                        <!-- =============================================================== -->
+                        <!-- || CORREÇÃO AQUI: Usando 'sort' e 'slice' em vez de 'classificar' e 'fatia' || -->
+                        <!-- =============================================================== -->
+                        {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %}
+                        <li><a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Nenhum projeto público ainda.</p>
+                {% endif %}
+            </div>
+            <div class="info-card">
+                <h3>Estatísticas</h3>
+                <ul class="stats-list">
+                    <li><strong>Projetos:</strong> {{ profile.stats_projects }}</li>
+                    <li><strong>Seguidores:</strong> {{ profile.stats_followers }}</li>
+                    <li><strong>Contribuições GitHub:</strong> {{ profile.stats_github }}</li>
+                </ul>
+            </div>
         </div>
-      </main>
+
+        <!-- Galeria de Projetos -->
+        <main class="dashboard-container">
+            <h2 class="section-title">Galeria de Projetos</h2>
+            <div class="project-grid">
+                {% for project_id, project in projects.items() %}
+                <div class="project-card" data-project="{{ project|tojson|safe }}">
+                    <h3>{{ project.name }}</h3>
+                    <div class="preview-container">
+                        <iframe class="project-preview-frame" scrolling="no"></iframe>
+                    </div>
+                    <div class="card-actions">
+                        <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
+                    </div>
+                </div>
+                {% else %}
+                <p>{{ username }} ainda não tornou nenhum projeto público.</p>
+                {% endfor %}
+            </div>
+        </main>
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.project-card').forEach((card) => {
-          const iframe = card.querySelector('.project-preview-frame')
-          const projectDataString = card.dataset.project
-          if (iframe && projectDataString) {
-            const projectData = JSON.parse(projectDataString)
-            const previewDoc = iframe.contentDocument || iframe.contentWindow.document
-            const scaledBody = `<body style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%; overflow: hidden;">${projectData.html}</body>`
-            previewDoc.open()
-            previewDoc.write(`<html><head><style>${projectData.css}</style></head>${scaledBody}</html>`)
-            previewDoc.close()
-          }
-        })
-      })
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.project-card').forEach(card => {
+                const iframe = card.querySelector('.project-preview-frame');
+                const projectDataString = card.dataset.project;
+                if (iframe && projectDataString) {
+                    const projectData = JSON.parse(projectDataString);
+                    const previewDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const scaledBody = `<body style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%; overflow: hidden;">${projectData.html}</body>`;
+                    previewDoc.open();
+                    previewDoc.write(`<html><head><style>${projectData.css}</style></head>${scaledBody}</html>`);
+                    previewDoc.close();
+                }
+            });
+        });
     </script>
-  </body>
+</body>
 </html>
