@@ -1,66 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
     <title>Editar Perfil</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  </head>
-  <body class="auth-body">
-    <div class="auth-card">
-      <h1>Editar Perfil</h1>
-      <form method="post">
-        <input type="hidden" name="avatar_base64" id="avatar_base64" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit.css') }}">
+</head>
+<body class="auth-body">
+    <div class="auth-card edit-profile-card">
+        <h1>Editar Perfil</h1>
+        
+        <form method="post" class="profile-form-grid">
+            <!-- Coluna da Esquerda: Avatar -->
+            <div class="avatar-section">
+                <h2 class="section-heading">Foto de Perfil</h2>
+                <img src="{{ profile.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="Avatar atual" id="avatar-preview" class="profile-avatar-preview">
+                
+                <input type="file" id="avatar_upload" class="hidden-file-input" accept="image/png, image/jpeg, image/gif">
+                <label for="avatar_upload" class="avatar-upload-label">Trocar Foto</label>
+                
+                <input type="hidden" name="avatar_base64" id="avatar_base64">
+            </div>
 
-        <label for="avatar_upload">Foto de Perfil</label>
-        <img src="{{ profile.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="Avatar atual" id="avatar-preview" class="profile-avatar-preview" />
-        <input type="file" id="avatar_upload" accept="image/png, image/jpeg, image/gif" />
+            <!-- Coluna da Direita: Campos de Texto -->
+            <div class="form-fields-section">
+                <!-- Seção de Informações Principais -->
+                <div class="form-section-card">
+                    <h2 class="section-heading">Informações Principais</h2>
+                    <div class="form-group">
+                        <label for="display_name" class="form-label">Nome de Exibição</label>
+                        <input type="text" id="display_name" name="display_name" class="form-input" placeholder="Como você quer ser chamado?" value="{{ profile.display_name or username }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="bio" class="form-label">Biografia Curta (abaixo do nome)</label>
+                        <textarea id="bio" name="bio" class="form-textarea" placeholder="Ex: Programador & Tech Enthusiast">{{ profile.bio or '' }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="about_me" class="form-label">Sobre Mim (card)</label>
+                        <textarea id="about_me" name="about_me" class="form-textarea" placeholder="Fale mais sobre você e seus interesses.">{{ profile.about_me or '' }}</textarea>
+                    </div>
+                </div>
 
-        <label for="display_name">Nome de Exibição</label>
-        <input type="text" id="display_name" name="display_name" placeholder="Como você quer ser chamado?" value="{{ profile.display_name or username }}" />
+                <!-- Seção de Links -->
+                <div class="form-section-card">
+                    <h2 class="section-heading">Links e Redes Sociais</h2>
+                    <div class="form-group">
+                        <label for="link_portfolio" class="form-label">Portfólio</label>
+                        <input type="url" id="link_portfolio" name="link_portfolio" class="form-input" placeholder="https://seusite.com" value="{{ profile.link_portfolio or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="link_linkedin" class="form-label">LinkedIn</label>
+                        <input type="url" id="link_linkedin" name="link_linkedin" class="form-input" placeholder="https://linkedin.com/in/seu-usuario" value="{{ profile.link_linkedin or '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="link_github_profile" class="form-label">Perfil GitHub</label>
+                        <input type="url" id="link_github_profile" name="link_github_profile" class="form-input" placeholder="https://github.com/seu-usuario" value="{{ profile.link_github_profile or '' }}">
+                    </div>
+                </div>
 
-        <label for="bio">Biografia Curta (abaixo do nome)</label>
-        <textarea id="bio" name="bio" placeholder="Ex: Programador & Tech Enthusiast">{{ profile.bio or '' }}</textarea>
+                <!-- Seção de Integração com GitHub -->
+                <div class="form-section-card">
+                    <h2 class="section-heading">Integração com GitHub</h2>
+                    <div class="form-group">
+                        <label for="github_username" class="form-label">Seu Nome de Usuário no GitHub (para API)</label>
+                        <input type="text" id="github_username" name="github_username" class="form-input" placeholder="Ex: Melquijava" value="{{ profile.github_username or '' }}">
+                    </div>
+                </div>
 
-        <label for="about_me">Sobre Mim (card)</label>
-        <textarea id="about_me" name="about_me" placeholder="Fale mais sobre você, seus interesses e habilidades.">{{ profile.about_me or '' }}</textarea>
-
-        <hr style="border-color: #444; margin: 1rem 0;" />
-        <p style="text-align: center; color: #888;">Links Úteis</p>
-
-        <label for="link_portfolio">Link do Portfólio</label>
-        <input type="url" id="link_portfolio" name="link_portfolio" placeholder="https://seusite.com" value="{{ profile.link_portfolio or '' }}" />
-
-        <label for="link_linkedin">Link do LinkedIn</label>
-        <input type="url" id="link_linkedin" name="link_linkedin" placeholder="https://linkedin.com/in/seu-usuario" value="{{ profile.link_linkedin or '' }}" />
-
-        <label for="link_github_profile">Link do Perfil GitHub</label>
-        <input type="url" id="link_github_profile" name="link_github_profile" placeholder="https://github.com/seu-usuario" value="{{ profile.link_github_profile or '' }}" />
-
-        <hr style="border-color: #444; margin: 1rem 0;" />
-        <p style="text-align: center; color: #888;">Informações para o Card de Estatísticas</p>
-
-        <hr style="border-color: #444; margin: 1rem 0;" />
-        <p style="text-align: center; color: #888;">Integração com o GitHub</p>
-
-        <label for="github_username">Seu Nome de Usuário no GitHub</label>
-        <input type="text" id="github_username" name="github_username" placeholder="Ex: octocat" value="{{ profile.github_username or '' }}" />
-
-        <button type="submit">Salvar Alterações</button>
-      </form>
-      <a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
+                <div class="form-actions">
+                    <button type="submit">Salvar Alterações</button>
+                    <a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script>
-      document.getElementById('avatar_upload').addEventListener('change', function (event) {
-        const file = event.target.files[0]
-        if (!file) return
-        const reader = new FileReader()
-        reader.onload = function (e) {
-          document.getElementById('avatar-preview').src = e.target.result
-          document.getElementById('avatar_base64').value = e.target.result
-        }
-        reader.readAsDataURL(file)
-      })
+        document.getElementById('avatar_upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatar-preview').src = e.target.result;
+                document.getElementById('avatar_base64').value = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
     </script>
-  </body>
+</body>
 </html>

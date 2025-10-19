@@ -1,0 +1,132 @@
+/* === REESTILIZAÇÃO DA PÁGINA DE EDITAR PERFIL === */
+
+/* Aumenta o tamanho do card principal */
+.edit-profile-card {
+    max-width: 1024px;
+    padding: 2rem;
+}
+
+/* Cria o layout de 2 colunas */
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Padrão de 1 coluna para mobile */
+    gap: 2rem;
+}
+
+/* Em telas maiores (lg), muda para 3 colunas (1 para avatar, 2 para campos) */
+@media (min-width: 1024px) {
+    .profile-form-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.avatar-section {
+    grid-column: span 1;
+    text-align: center;
+}
+
+.form-fields-section {
+    grid-column: span 1;
+}
+
+@media (min-width: 1024px) {
+    .form-fields-section {
+        grid-column: span 2;
+    }
+}
+
+/* Títulos das seções */
+.section-heading {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #ccc;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #444;
+}
+
+/* Preview do avatar */
+.profile-avatar-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 1rem auto;
+    border: 3px solid #555;
+    background-color: #333;
+}
+
+/* Esconde o input de arquivo padrão */
+.hidden-file-input {
+    display: none;
+}
+
+/* Estiliza o label para parecer um botão de upload */
+.avatar-upload-label {
+    display: inline-block;
+    background-color: #373e47;
+    color: #ccc;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border: 1px solid #555;
+}
+
+.avatar-upload-label:hover {
+    background-color: #4a525d;
+}
+
+/* Card para agrupar campos */
+.form-section-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+/* Grupo de label + input */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Estilos para labels e inputs */
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #aaa;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    background-color: #1c2128;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Ações do formulário no final */
+.form-actions {
+    margin-top: 2rem;
+    text-align: right;
+}
+
+.form-actions .back-link {
+    margin-left: 1rem;
+}
