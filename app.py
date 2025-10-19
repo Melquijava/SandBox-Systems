@@ -95,25 +95,31 @@ def profile(username):
     if not user_data:
         return "Perfil não encontrado", 404
 
-    # Filtra apenas os projetos marcados como públicos
     public_projects = {
         pid: p for pid, p in user_data.get('projects', {}).items() if p.get('public')
     }
     
-    # Obtém informações do perfil, com valores padrão caso não existam
-    user_profile = user_data.get('profile', {
-        'bio': 'Este usuário ainda não adicionou uma biografia.',
-        'avatar_url': url_for('static', filename='images/default_avatar.png') # Precisaremos de uma imagem padrão
-    })
+    user_profile = user_data.get('profile', {})
+    
+    profile_data = {
+        'display_name': user_profile.get('display_name', username),
+        'bio': user_profile.get('bio', 'Nenhuma biografia adicionada.'),
+        'avatar_url': user_profile.get('avatar_url', url_for('static', filename='images/default_avatar.png')),
+        'about_me': user_profile.get('about_me', 'Nenhuma informação adicional.'),
+        'stats_projects': len(public_projects),
+        'stats_followers': user_profile.get('stats_followers', '0'),
+        'stats_github': user_profile.get('stats_github', '0')
+    }
 
     return render_template('profile.html', 
                            username=username, 
-                           profile=user_profile, 
+                           profile=profile_data, 
                            projects=public_projects)
 
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
 def edit_profile():
+    """Permite que o usuário logado edite seu perfil."""
     if 'username' not in session:
         return redirect(url_for('login'))
     
@@ -122,9 +128,12 @@ def edit_profile():
     user_profile = users_data[username].setdefault('profile', {})
 
     if request.method == 'POST':
-        user_profile['bio'] = request.form.get('bio', user_profile.get('bio', ''))
+        user_profile['display_name'] = request.form.get('display_name', username)
+        user_profile['bio'] = request.form.get('bio', '')
+        user_profile['about_me'] = request.form.get('about_me', '')
+        user_profile['stats_followers'] = request.form.get('stats_followers', '0')
+        user_profile['stats_github'] = request.form.get('stats_github', '0')
         
-        # Pega a nova imagem em Base64, se uma foi enviada
         new_avatar_base64 = request.form.get('avatar_base64')
         if new_avatar_base64:
             user_profile['avatar_url'] = new_avatar_base64
@@ -133,7 +142,7 @@ def edit_profile():
         flash('Perfil atualizado com sucesso!', 'success')
         return redirect(url_for('dashboard'))
 
-    return render_template('edit_profile.html', profile=user_profile)
+    return render_template('edit_profile.html', profile=user_profile, username=username)
 
 # --- API PARA GERENCIAMENTO DE PROJETOS (ATUALIZADA) ---
 

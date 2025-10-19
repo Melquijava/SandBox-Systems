@@ -373,91 +373,115 @@ label {
     pointer-events: none;
 }
 
-/* Estilos para a Página de Perfil Pública */
-.profile-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
 
-.profile-header {
+/* === NOVOS ESTILOS PARA O PERFIL PÚBLICO === */
+
+.profile-main-info {
     text-align: center;
-    margin-bottom: 3rem;
+    padding: 2rem 1rem;
     color: #fff;
 }
 
-.profile-avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 5px solid #4a90e2;
-    object-fit: cover;
-    margin-bottom: 1rem;
-    background-color: #333; /* Cor de fundo caso a imagem falhe */
-}
-
-.profile-header h1 {
+.profile-display-name {
     font-size: 2.5rem;
-    margin: 0.5rem 0;
+    font-weight: bold;
+    color: #58a6ff; /* Azul claro */
+    margin: 1rem 0 0.5rem 0;
 }
 
-.profile-bio {
-    max-width: 600px;
-    margin: 0 auto;
+.profile-main-info .profile-bio {
     font-size: 1.1rem;
     color: #ccc;
+    margin-bottom: 1.5rem;
+}
+
+.follow-button {
+    background-color: #238636; /* Verde do GitHub */
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.follow-button:hover {
+    background-color: #2ea043;
+}
+
+/* Container dos 3 cards de informação */
+.info-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.info-card {
+    background-color: #1c2128; /* Fundo do card */
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #30363d;
+    color: #ccc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.info-card h3 {
+    font-size: 1.5rem;
+    color: #58a6ff; /* Azul claro */
+    margin-top: 0;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #30363d;
+    padding-bottom: 0.5rem;
+}
+
+.info-card p {
     line-height: 1.6;
 }
 
-/* Estilos para a Página de Edição de Perfil */
-.auth-card label {
-    display: block;
-    text-align: left;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: #ddd;
+/* Listas dentro dos cards */
+.recent-projects-list, .stats-list {
+    list-style: none;
+    padding-left: 0;
 }
 
-.auth-card textarea {
-    width: 100%;
-    min-height: 120px;
-    background-color: #333;
-    border: 1px solid #555;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    resize: vertical;
+.recent-projects-list li, .stats-list li {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
 }
 
-.auth-card .back-link {
-    display: block;
-    margin-top: 1rem;
-    text-align: center;
-}
-
-/* Links no Header do Dashboard */
-.user-info .dashboard-link {
+.recent-projects-list a {
     color: #ccc;
     text-decoration: none;
-    margin: 0 10px;
     transition: color 0.2s;
 }
-.user-info .dashboard-link:hover {
+
+.recent-projects-list a:hover {
+    color: #58a6ff;
+}
+
+.stats-list strong {
     color: #fff;
 }
 
-/* Checkbox de Projeto Público no Editor */
-.public-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #ccc;
-    margin-right: 1rem;
+/* Título da galeria de projetos */
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
 }
 
-#public-checkbox {
-    width: 18px;
-    height: 18px;
-    accent-color: #4a90e2;
+/* Preview de avatar na página de edição */
+.profile-avatar-preview {
+    max-width: 150px;
+    border-radius: 50%;
+    display: block;
+    margin: 10px auto;
+    border: 3px solid #555;
 }
