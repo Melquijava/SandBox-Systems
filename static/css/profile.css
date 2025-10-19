@@ -1,17 +1,18 @@
-/* ======================================
-   PERFIL PÚBLICO - Systems_BSI (Layout Pro)
-   ====================================== */
+/* ===============================================
+   PERFIL PÚBLICO - Systems_BSI (Design Profissional)
+   =============================================== */
 
 body.dashboard-body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #0b1019;
+    background: radial-gradient(circle at top center, #0b111a 0%, #05080e 100%);
     color: #e6edf3;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
+    letter-spacing: 0.3px;
 }
 
 /* Container principal */
@@ -19,97 +20,107 @@ body.dashboard-body {
     width: 100%;
     max-width: 1200px;
     text-align: center;
-    padding: 3rem 2rem 5rem;
+    padding: 4rem 2rem;
+    animation: fadeIn 1s ease-out;
 }
 
 /* ==========================
-   Cabeçalho principal
+   Cabeçalho do perfil
    ========================== */
 .profile-main-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
+    position: relative;
 }
 
 .profile-avatar {
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    border: 3px solid #008cff;
-    box-shadow: 0 0 20px rgba(0, 140, 255, 0.25);
+    border: 2px solid rgba(0, 247, 255, 0.6);
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.25);
     object-fit: cover;
-    transition: all 0.3s ease;
+    background: radial-gradient(circle at center, #0d141e, #060a11);
+    transition: all 0.4s ease;
 }
 
 .profile-avatar:hover {
-    transform: scale(1.07);
-    box-shadow: 0 0 30px rgba(0, 180, 255, 0.45);
+    transform: scale(1.06);
+    box-shadow: 0 0 35px rgba(0, 255, 255, 0.4);
 }
 
 .profile-display-name {
-    margin-top: 1.2rem;
-    font-size: 1.9rem;
+    margin-top: 1.3rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: #007bff;
+    background: linear-gradient(90deg, #00cfff, #007bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .profile-bio {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: #aab1b8;
-    margin-top: 0.3rem;
+    margin-top: 0.4rem;
 }
 
 .follow-button {
-    margin-top: 1rem;
-    background: #007bff;
+    margin-top: 1.2rem;
+    background: linear-gradient(90deg, #007bff, #00cfff);
     border: none;
-    padding: 10px 24px;
-    color: #fff;
-    border-radius: 6px;
+    padding: 10px 26px;
+    color: white;
+    border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
     font-size: 1rem;
     transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
 }
 
 .follow-button:hover {
-    background: #009dff;
-    box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
 }
 
 /* ==========================
-   Cards superiores
+   Cards de informações
    ========================== */
 .info-cards-container {
     display: flex;
     justify-content: center;
     align-items: stretch;
     gap: 2rem;
-    margin-bottom: 4rem;
+    margin-bottom: 4.5rem;
     flex-wrap: wrap;
 }
 
 .info-card {
-    background: rgba(16, 22, 30, 0.95);
-    border: 1px solid rgba(0, 123, 255, 0.25);
-    border-radius: 12px;
-    padding: 1.8rem 1.5rem;
+    background: rgba(17, 25, 40, 0.6);
+    border: 1px solid rgba(0, 247, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 1.8rem;
     width: 320px;
-    box-shadow: 0 0 20px rgba(0, 140, 255, 0.05);
-    transition: all 0.3s ease;
+    box-shadow: 0 0 25px rgba(0, 140, 255, 0.05);
+    transition: all 0.35s ease;
     text-align: left;
 }
 
 .info-card:hover {
-    border-color: #00aaff;
-    box-shadow: 0 0 25px rgba(0, 170, 255, 0.15);
+    border-color: rgba(0, 200, 255, 0.6);
+    box-shadow: 0 0 35px rgba(0, 255, 255, 0.15);
+    transform: translateY(-4px);
 }
 
 .info-card h3 {
-    color: #00aaff;
-    font-size: 1.2rem;
-    margin-bottom: 0.8rem;
+    color: #00cfff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
 
 .info-card p,
@@ -125,14 +136,15 @@ body.dashboard-body {
 
 /* Links */
 .useful-links-list a {
-    color: #58a6ff;
+    color: #00cfff;
     text-decoration: none;
     transition: 0.2s;
     font-weight: 500;
 }
 
 .useful-links-list a:hover {
-    color: #00c6ff;
+    color: #00f6ff;
+    text-shadow: 0 0 8px rgba(0, 247, 255, 0.4);
 }
 
 /* ==========================
@@ -140,75 +152,80 @@ body.dashboard-body {
    ========================== */
 .dashboard-container {
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 
 .section-title {
-    font-size: 1.6rem;
-    color: #00aaff;
+    font-size: 1.7rem;
+    background: linear-gradient(90deg, #00cfff, #007bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.5px;
 }
 
 /* Grid */
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 2rem;
+    gap: 2.5rem;
     justify-items: center;
 }
 
 /* Card de projeto */
 .project-card {
-    background: rgba(15, 22, 34, 0.95);
-    border: 1px solid rgba(0, 123, 255, 0.25);
-    border-radius: 12px;
+    background: rgba(16, 24, 40, 0.7);
+    border: 1px solid rgba(0, 247, 255, 0.2);
+    border-radius: 14px;
     padding: 1.5rem;
     width: 100%;
     max-width: 420px;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.05);
-    transition: 0.3s;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+    transition: 0.3s ease;
 }
 
 .project-card:hover {
-    border-color: #00aaff;
-    box-shadow: 0 0 25px rgba(0, 170, 255, 0.15);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 30px rgba(0, 247, 255, 0.1);
     transform: translateY(-4px);
 }
 
 .project-card h3 {
-    color: #58a6ff;
+    color: #00cfff;
     font-size: 1.1rem;
     margin-bottom: 1rem;
 }
 
 /* Preview */
 .preview-container {
-    background: #0a0f18;
-    border-radius: 8px;
-    border: 1px solid #1e2633;
+    background: #0b0f16;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 200, 255, 0.15);
     overflow: hidden;
-    height: 200px;
+    height: 220px;
     margin-bottom: 1rem;
-    box-shadow: inset 0 0 8px rgba(0, 170, 255, 0.05);
+    box-shadow: inset 0 0 8px rgba(0, 200, 255, 0.05);
+    transition: all 0.3s ease;
 }
 
+.preview-container:hover {
+    box-shadow: inset 0 0 12px rgba(0, 255, 255, 0.2);
+}
+
+/* Frame */
 .project-preview-frame {
     width: 100%;
     height: 100%;
     border: none;
 }
 
-/* Botão de ação */
-.card-actions {
-    margin-top: 0.8rem;
-}
-
+/* Botão */
 .action-button {
-    background: #007bff;
+    background: linear-gradient(90deg, #007bff, #00cfff);
     color: #fff;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 10px 22px;
     border-radius: 8px;
     font-weight: 600;
     transition: 0.3s;
@@ -216,8 +233,16 @@ body.dashboard-body {
 }
 
 .action-button:hover {
-    background: #00aaff;
-    box-shadow: 0 0 20px rgba(0, 170, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ==========================
+   Animações
+   ========================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================
@@ -239,6 +264,6 @@ body.dashboard-body {
     }
 
     .section-title {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
     }
 }
