@@ -10,17 +10,17 @@
         <header class="profile-header">
             <img src="{{ profile.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="Avatar de {{ username }}" class="profile-avatar">
             <h1>{{ username }}</h1>
-            <p class="profile-bio">{{ profile.bio }}</p>
+            <p class="profile-bio">{{ profile.bio or 'Nenhuma biografia adicionada.' }}</p>
         </header>
 
         <main class="dashboard-container">
             <h2>Projetos Públicos</h2>
             <div class="project-grid">
                 {% for project_id, project in projects.items() %}
-                <div class="project-card">
+                <div class="project-card" data-project="{{ project|tojson|safe }}">
                     <h3>{{ project.name }}</h3>
                     <div class="preview-container">
-                        <iframe class="project-preview-frame" scrolling="no" srcdoc="<html><head><style>${project.css}</style></head><body style='transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%; overflow: hidden;'>${project.html}</body></html>"></iframe>
+                        <iframe class="project-preview-frame" scrolling="no"></iframe>
                     </div>
                     <div class="card-actions">
                         <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
@@ -32,5 +32,30 @@
             </div>
         </main>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.project-card').forEach(card => {
+            const iframe = card.querySelector('.project-preview-frame');
+            const projectDataString = card.dataset.project;
+            
+            if (iframe && projectDataString) {
+                const projectData = JSON.parse(projectDataString);
+                const previewDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                const scaledBody = `<body style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%; overflow: hidden;">${projectData.html}</body>`;
+
+                previewDoc.open();
+                previewDoc.write(`
+                    <html>
+                    <head><style>${projectData.css}</style></head>
+                    ${scaledBody}
+                    </html>
+                `);
+                previewDoc.close();
+            }
+        });
+    });
+    </script>
 </body>
 </html>

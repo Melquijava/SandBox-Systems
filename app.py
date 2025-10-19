@@ -114,7 +114,6 @@ def profile(username):
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
 def edit_profile():
-    """Permite que o usuário logado edite seu perfil."""
     if 'username' not in session:
         return redirect(url_for('login'))
     
@@ -123,8 +122,13 @@ def edit_profile():
     user_profile = users_data[username].setdefault('profile', {})
 
     if request.method == 'POST':
-        user_profile['bio'] = request.form.get('bio', '')
-        user_profile['avatar_url'] = request.form.get('avatar_url', '')
+        user_profile['bio'] = request.form.get('bio', user_profile.get('bio', ''))
+        
+        # Pega a nova imagem em Base64, se uma foi enviada
+        new_avatar_base64 = request.form.get('avatar_base64')
+        if new_avatar_base64:
+            user_profile['avatar_url'] = new_avatar_base64
+
         save_data(users_data)
         flash('Perfil atualizado com sucesso!', 'success')
         return redirect(url_for('dashboard'))

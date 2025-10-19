@@ -9,15 +9,32 @@
     <div class="auth-card">
         <h1>Editar Perfil</h1>
         <form method="post">
-            <label for="avatar_url">URL da Foto de Perfil</label>
-            <input type="url" id="avatar_url" name="avatar_url" placeholder="https://exemplo.com/sua-foto.png" value="{{ profile.avatar_url or '' }}">
-            
+            <input type="hidden" name="avatar_base64" id="avatar_base64">
+
+            <label for="avatar_upload">Foto de Perfil</label>
+            <img src="{{ profile.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="Avatar atual" id="avatar-preview" style="max-width: 150px; border-radius: 50%; display: block; margin: 10px auto;">
+            <input type="file" id="avatar_upload" accept="image/png, image/jpeg, image/gif">
+
             <label for="bio">Biografia</label>
-            <textarea id="bio" name="bio" placeholder="Fale um pouco sobre você e seus projetos...">{{ profile.bio or '' }}</textarea>
+            <textarea id="bio" name="bio" placeholder="Fale um pouco sobre você...">{{ profile.bio or '' }}</textarea>
             
             <button type="submit">Salvar Alterações</button>
         </form>
         <a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
     </div>
+
+    <script>
+        document.getElementById('avatar_upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatar-preview').src = e.target.result;
+                document.getElementById('avatar_base64').value = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
 </body>
 </html>
