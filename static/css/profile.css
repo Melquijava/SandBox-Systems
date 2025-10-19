@@ -1,6 +1,6 @@
-/* ===============================
-   PERFIL PÚBLICO - Systems_BSI
-   =============================== */
+/* ==========================================
+   PERFIL PÚBLICO - Systems_BSI (versão aprimorada)
+   ========================================== */
 
 body.dashboard-body {
     margin: 0;
@@ -10,94 +10,94 @@ body.dashboard-body {
     color: #e6edf3;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
 }
 
 /* Container principal */
 .profile-page {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1280px;
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 2rem;
 }
 
-/* Cabeçalho principal do perfil */
+/* Cabeçalho do perfil */
 .profile-main-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
 }
 
-/* Avatar */
 .profile-avatar {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    border: 3px solid #007bff;
-    box-shadow: 0 0 25px rgba(0, 123, 255, 0.2);
+    border: 4px solid #007bff;
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.25);
     object-fit: cover;
     transition: all 0.3s ease;
 }
 
 .profile-avatar:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 35px rgba(0, 123, 255, 0.4);
+    transform: scale(1.08);
+    box-shadow: 0 0 40px rgba(0, 170, 255, 0.45);
 }
 
-/* Nome e bio */
 .profile-display-name {
     margin-top: 1rem;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #007bff;
-    text-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+    text-shadow: 0 0 15px rgba(0, 123, 255, 0.2);
 }
 
 .profile-bio {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #aab1b8;
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
 }
 
-/* Botão de seguir */
+/* Botão seguir */
 .follow-button {
     margin-top: 1rem;
     background: #007bff;
     border: none;
-    padding: 10px 22px;
+    padding: 12px 28px;
     color: #fff;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+    font-size: 1rem;
     transition: all 0.3s ease;
 }
 
 .follow-button:hover {
-    background: #0d6efd;
-    box-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+    background: #00aaff;
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
     transform: translateY(-2px);
 }
 
 /* ===============================
-   SEÇÃO DE CARDS (Sobre mim, Links, Estatísticas)
+   CARDS DE INFORMAÇÕES
    =============================== */
 
 .info-cards-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 2rem;
     margin-bottom: 4rem;
 }
 
 .info-card {
     background: rgba(16, 22, 30, 0.9);
     border: 1px solid rgba(0, 123, 255, 0.25);
-    border-radius: 12px;
-    padding: 1.5rem;
-    width: 300px;
+    border-radius: 14px;
+    padding: 2rem;
+    width: 340px;
+    min-height: 160px;
     box-shadow: 0 0 25px rgba(0, 123, 255, 0.05);
     text-align: left;
     transition: all 0.3s ease;
@@ -105,21 +105,19 @@ body.dashboard-body {
 
 .info-card:hover {
     border-color: #00aaff;
-    box-shadow: 0 0 25px rgba(0, 170, 255, 0.15);
+    box-shadow: 0 0 30px rgba(0, 170, 255, 0.15);
 }
 
-/* Títulos dos cards */
 .info-card h3 {
     color: #00aaff;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 0.8rem;
 }
 
-/* Textos e listas */
 .info-card p,
 .info-card ul,
 .info-card li {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #d1d5db;
     line-height: 1.6;
     margin: 0;
@@ -127,11 +125,12 @@ body.dashboard-body {
     padding: 0;
 }
 
-/* Links úteis */
+/* Links */
 .useful-links-list a {
     color: #58a6ff;
     text-decoration: none;
     transition: 0.2s;
+    font-weight: 500;
 }
 
 .useful-links-list a:hover {
@@ -144,50 +143,58 @@ body.dashboard-body {
 
 .dashboard-container {
     text-align: center;
+    margin-top: 2rem;
 }
 
 .section-title {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     color: #00aaff;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(0, 170, 255, 0.15);
 }
 
-/* Grid de projetos */
+/* Grid */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 2.5rem;
+    justify-items: center;
 }
 
 /* Card de projeto */
 .project-card {
     background: #0f1622;
     border: 1px solid #1e2633;
-    border-radius: 12px;
-    padding: 1rem;
+    border-radius: 14px;
+    padding: 1.5rem;
     transition: 0.3s;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.05);
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.05);
 }
 
 .project-card:hover {
     border-color: #00aaff;
-    box-shadow: 0 0 20px rgba(0, 170, 255, 0.1);
+    box-shadow: 0 0 25px rgba(0, 170, 255, 0.15);
+    transform: translateY(-4px);
 }
 
-/* Título do projeto */
 .project-card h3 {
     color: #58a6ff;
-    margin-bottom: 0.8rem;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
 }
 
 /* Preview */
 .preview-container {
     background: #0a0f18;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid #1e2633;
     overflow: hidden;
-    height: 150px;
+    height: 220px;
+    margin-bottom: 1rem;
+    box-shadow: inset 0 0 8px rgba(0, 170, 255, 0.05);
 }
 
 .project-preview-frame {
@@ -196,24 +203,25 @@ body.dashboard-body {
     border: none;
 }
 
-/* Botões de ação */
+/* Botões */
 .card-actions {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
 }
 
 .action-button {
     background: #007bff;
     color: #fff;
     text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
     font-weight: 600;
-    transition: all 0.2s;
+    transition: 0.3s;
+    font-size: 0.95rem;
 }
 
 .action-button:hover {
     background: #00aaff;
-    box-shadow: 0 0 15px rgba(0, 170, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.3);
 }
 
 /* ===============================
@@ -221,13 +229,20 @@ body.dashboard-body {
    =============================== */
 
 @media (max-width: 768px) {
-    .info-cards-container {
-        flex-direction: column;
-        align-items: center;
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
     }
 
     .info-card {
-        width: 100%;
-        max-width: 400px;
+        width: 90%;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
     }
 }
