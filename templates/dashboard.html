@@ -4,29 +4,35 @@
     <meta charset="UTF-8" />
     <title>Dashboard - Systems_BSI Editor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+
+    <!-- (opcional) garante que o iframe tenha fundo e altura visíveis -->
+    <style>
+      .project-preview-frame{
+        width:100%;
+        height:200px;
+        border:0;
+        background:#fff;
+        display:block;
+      }
+      .preview-container{ overflow:hidden; }
+    </style>
   </head>
   <body>
     <header class="dashboard-header">
       <h1>Dashboard de Projetos</h1>
       <div class="user-info">
         <a href="{{ url_for('profile', username=username) }}" class="header-link">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>Perfil
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Perfil
         </a>
         <a href="{{ url_for('edit_profile') }}" class="header-link">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-          </svg>Editar
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+          Editar
         </a>
         <span class="welcome-text">Olá, {{ username }}!</span>
         <a href="{{ url_for('logout') }}" class="header-link logout-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>Sair
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Sair
         </a>
       </div>
     </header>
@@ -34,18 +40,12 @@
     <main class="dashboard-container">
       <a href="{{ url_for('editor') }}" class="new-project-button">+ Criar Novo Projeto</a>
       <h2>Meus Projetos</h2>
+
       <div class="project-grid">
         {% for project_id, project in projects.items() %}
-          <!-- CORREÇÃO IMPORTANTE: Adicionando o data-project aqui para as prévias funcionarem -->
-          <div class="project-card" data-project-id="{{ project_id }}">
-            <script type="application/json" id="project-{{ project_id }}">
-              {
-                {
-                  project | tojson
-                }
-              }
-            </script>
 
+          <!-- CORRIGIDO: NÃO colocamos o JSON em data-*, só o ID -->
+          <div class="project-card" data-project-id="{{ project_id }}">
             <h3>{{ project.name }}</h3>
 
             <div class="preview-container">
@@ -53,22 +53,23 @@
             </div>
 
             <div class="likes-bar">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
               <span>0 Curtidas</span>
             </div>
 
             <div class="card-actions">
               <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver</a>
               <a href="{{ url_for('editor') }}?project_id={{ project_id }}" class="action-button edit-button">Editar</a>
-
-              <!-- MUDANÇA: Botão Duplicar agora é Compartilhar -->
               <button class="action-button share-button" data-link="{{ url_for('view', project_id=project_id, _external=True) }}">Compartilhar</button>
-
               <button class="action-button delete-button" data-project-id="{{ project_id }}">Excluir</button>
             </div>
+
+            <!-- CORRIGIDO: JSON seguro dentro de <script type="application/json"> -->
+            <script type="application/json" id="project-{{ project_id }}">
+              {{ project|tojson }}
+            </script>
           </div>
+
         {% else %}
           <p>Você ainda não tem projetos salvos. Crie um novo!</p>
         {% endfor %}
@@ -77,67 +78,82 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Script para renderizar as prévias (agora vai funcionar)
+
+        // === PRÉVIAS (CORRIGIDO) ===
         document.querySelectorAll('.project-card').forEach((card) => {
-          const iframe = card.querySelector('.project-preview-frame')
-          const projectId = card.dataset.projectId
-          const jsonElement = document.getElementById(`project-${projectId}`)
-          if (iframe && jsonElement) {
-            try {
-              const projectData = JSON.parse(jsonElement.textContent)
-      
-              const previewDoc = iframe.contentDocument || iframe.contentWindow.document
-              previewDoc.open()
-              previewDoc.write(`
-                          <html>
-                            <head><style>${projectData.css || ''}</style></head>
-                            <body style="zoom:0.5; margin:0;">${projectData.html || ''}</body>
-                          </html>
-                        `)
-              previewDoc.close()
-            } catch (e) {
-              console.error('Erro ao renderizar prévia do projeto:', e)
-            }
+          const iframe = card.querySelector('.project-preview-frame');
+          const projectId = card.dataset.projectId;
+
+          // pegamos o JSON seguro do <script type="application/json">
+          const jsonEl = document.getElementById(`project-${projectId}`);
+
+          if (!iframe || !jsonEl) return;
+
+          try {
+            // textContent preserva o JSON válido gerado por {{ project|tojson }}
+            const projectData = JSON.parse(jsonEl.textContent);
+
+            // valores default para evitar undefined
+            const html = projectData.html || '';
+            const css  = projectData.css  || '';
+
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            doc.open();
+            doc.write(`
+              <!doctype html>
+              <html>
+                <head>
+                  <meta charset="utf-8">
+                  <base target="_blank">
+                  <style>html,body{margin:0;padding:0}</style>
+                  <style>${css}</style>
+                </head>
+                <body style="zoom:0.5; transform-origin: 0 0;">
+                  ${html}
+                </body>
+              </html>
+            `);
+            doc.close();
+          } catch (e) {
+            console.error('Erro ao renderizar prévia:', e);
           }
-        })
-      
-        // Script para os botões de ação
+        });
+
+        // === AÇÕES (Compartilhar / Excluir) ===
         document.querySelector('.project-grid').addEventListener('click', async (e) => {
-          const button = e.target.closest('.action-button')
-          if (!button) return
-      
-          // MUDANÇA: Lógica para o botão de compartilhar
+          const button = e.target.closest('.action-button');
+          if (!button) return;
+
           if (button.classList.contains('share-button')) {
-            const link = button.dataset.link
-            navigator.clipboard
-              .writeText(link)
-              .then(() => {
-                const originalText = button.textContent
-                button.textContent = 'Copiado!'
-                setTimeout(() => {
-                  button.textContent = originalText
-                }, 2000)
-              })
-              .catch((err) => console.error('Erro ao copiar link:', err))
+            const link = button.dataset.link;
+            try {
+              await navigator.clipboard.writeText(link);
+              const old = button.textContent;
+              button.textContent = 'Copiado!';
+              setTimeout(() => { button.textContent = old; }, 2000);
+            } catch (err) {
+              console.error('Erro ao copiar link:', err);
+            }
+            return;
           }
-      
+
           if (button.classList.contains('delete-button')) {
-            const projectId = button.dataset.projectId
+            const projectId = button.dataset.projectId;
             if (confirm('Tem certeza que deseja excluir este projeto?')) {
               try {
-                const response = await fetch(`/api/projects/${projectId}`, { method: 'DELETE' })
-                if (response.ok) {
-                  button.closest('.project-card').remove()
+                const resp = await fetch(`/api/projects/${projectId}`, { method: 'DELETE' });
+                if (resp.ok) {
+                  button.closest('.project-card').remove();
                 } else {
-                  alert('Erro ao excluir o projeto.')
+                  alert('Erro ao excluir o projeto.');
                 }
-              } catch (error) {
-                alert('Erro de conexão ao tentar excluir.')
+              } catch {
+                alert('Erro de conexão ao tentar excluir.');
               }
             }
           }
-        })
-      })
+        });
+      });
     </script>
   </body>
 </html>
