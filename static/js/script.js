@@ -9,26 +9,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentProjectId = null; 
 
     function updatePreview() {
-        const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+    const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+    const jsCode = jsEditor.getValue();
 
-        previewDoc.open();
-        previewDoc.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>${cssEditor.getValue()}</style>
-            </head>
-            <body>
-                ${htmlEditor.getValue()}
-            </body>
-            </html>
-        `);
-        previewDoc.close();
+    const sourceDoc = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>${cssEditor.getValue()}</style>
+        </head>
+        <body>
+            ${htmlEditor.getValue()}
+            
+            <!-- O JS deve ser escrito aqui dentro da string ANTES de fechar o documento -->
+            ${jsCode ? `<script>${jsCode}</script>` : ''}
+        </body>
+        </html>
+    `;
 
-        const scriptTag = previewDoc.createElement('script');
-        scriptTag.textContent = jsEditor.getValue();
-        previewDoc.body.appendChild(scriptTag);
-    }
+    previewDoc.open();
+    previewDoc.write(sourceDoc);
+    previewDoc.close();
+}
 
     htmlEditor.on('change', updatePreview);
     cssEditor.on('change', updatePreview);

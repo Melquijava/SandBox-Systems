@@ -12,31 +12,30 @@
     <iframe id="preview-frame" data-project="{{ project|tojson|forceescape }}"></iframe>
 
     <script>
-        const previewFrame = document.getElementById('preview-frame');
+    const previewFrame = document.getElementById('preview-frame');
+    const projectJson = previewFrame.dataset.project;
+    const project = JSON.parse(projectJson);
 
-        const projectJson = previewFrame.dataset.project;
-        
-        const project = JSON.parse(projectJson);
+    const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+    const jsCode = project.js || '';
 
-        const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+    const fullHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>${project.css || ''}</style>
+        </head>
+        <body>
+            ${project.html || ''}
+            
+            ${jsCode ? `<script>${jsCode}</script>` : ''}
+        </body>
+        </html>
+    `;
 
-        previewDoc.open();
-        previewDoc.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>${project.css}</style>
-            </head>
-            <body>
-                ${project.html}
-            </body>
-            </html>
-        `);
-        previewDoc.close();
-
-        const scriptTag = previewDoc.createElement('script');
-        scriptTag.textContent = project.js;
-        previewDoc.body.appendChild(scriptTag);
+    previewDoc.open();
+    previewDoc.write(fullHtml);
+    previewDoc.close();
     </script>
 </body>
 </html>
