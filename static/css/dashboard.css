@@ -150,10 +150,10 @@ body {
 }
 
 .project-preview-frame {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background-color: #fff; /* Fundo branco para a prévia */
+  width: 100%;
+  height: 200px;
+  border: none;
+  background-color: white;
 }
 
 /* Barra de Curtidas */
