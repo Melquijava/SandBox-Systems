@@ -4,26 +4,33 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 2rem;
-    background-color: #0d1117;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: radial-gradient(circle at top left, #0c1015 0%, #0d1117 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: #c9d1d9;
 }
 
 .edit-profile-card {
     width: 100%;
-    max-width: 1024px;
-    background-color: #161b22;
-    padding: 2rem 3rem;
-    border-radius: 10px;
-    border: 1px solid #30363d;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    max-width: 1080px;
+    background: linear-gradient(145deg, #161b22, #0e1117);
+    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    border: 1px solid #2d333b;
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.05), 0 0 40px rgba(74, 144, 226, 0.05);
+    transition: all 0.3s ease;
+}
+
+.edit-profile-card:hover {
+    box-shadow: 0 0 40px rgba(0, 255, 204, 0.1), 0 0 60px rgba(74, 144, 226, 0.1);
 }
 
 .edit-profile-card h1 {
-    color: #4a90e2; 
+    color: #00c6ff;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     font-size: 2rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
 }
 
 .profile-form-grid {
@@ -34,22 +41,14 @@ body {
 
 @media (min-width: 1024px) {
     .profile-form-grid {
-        grid-template-columns: 250px 1fr;
+        grid-template-columns: 260px 1fr;
         gap: 3rem;
     }
 }
 
 .avatar-section {
     text-align: center;
-}
-
-.section-heading {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #c9d1d9;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #30363d;
+    position: relative;
 }
 
 .profile-avatar-preview {
@@ -58,73 +57,80 @@ body {
     border-radius: 50%;
     object-fit: cover;
     margin: 1rem auto;
-    border: 3px solid #30363d;
+    border: 3px solid #00c6ff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
     background-color: #0d1117;
+    transition: all 0.3s ease;
 }
 
-.hidden-file-input {
-    display: none;
+.profile-avatar-preview:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
 }
 
 .avatar-upload-label {
     display: inline-block;
-    width: 100%;
-    background-color: #21262d;
+    background: linear-gradient(90deg, #21262d, #1b1f24);
+    border: 1px solid #2d333b;
     color: #c9d1d9;
     padding: 12px 20px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    border: 1px solid #30363d;
+    transition: 0.3s;
     font-weight: 600;
 }
 
 .avatar-upload-label:hover {
-    background-color: #30363d;
-    border-color: #4a90e2;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 
 .form-section-card {
     background-color: #0d1117;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    border: 1px solid #30363d;
+    padding: 1.75rem;
+    border-radius: 10px;
+    border: 1px solid #2d333b;
+    transition: border-color 0.2s;
 }
 
-.form-group {
+.form-section-card:hover {
+    border-color: #00c6ff;
+}
+
+.section-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #58a6ff;
     margin-bottom: 1.25rem;
+    border-bottom: 1px solid #2d333b;
+    padding-bottom: 0.5rem;
 }
 
 .form-label {
     display: block;
     margin-bottom: 0.5rem;
-    font-weight: 500;
     color: #8b949e;
+    font-weight: 500;
 }
 
 .form-input,
 .form-textarea {
     width: 100%;
-    background-color: #010409;
-    border: 1px solid #30363d;
+    background: #0b0f14;
+    border: 1px solid #2d333b;
     color: #c9d1d9;
     padding: 12px;
-    border-radius: 6px;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
     font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-input:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
-}
-
-.form-textarea {
-    min-height: 100px;
-    resize: vertical;
+    border-color: #00c6ff;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
 }
 
 .form-actions {
@@ -136,29 +142,48 @@ body {
 }
 
 .form-actions button {
-    background-color: #4a90e2;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
     color: white;
     font-weight: bold;
     border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
+    padding: 12px 26px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: 0.3s;
     font-size: 1rem;
+    letter-spacing: 0.5px;
 }
 
 .form-actions button:hover {
-    background-color: #58a6ff;
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 
 .form-actions .back-link {
     color: #8b949e;
     text-decoration: none;
-    padding: 12px 0;
+    padding: 10px 0;
     font-weight: 500;
+    transition: 0.2s;
 }
 
 .form-actions .back-link:hover {
-    color: #58a6ff;
+    color: #00c6ff;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #0072ff, #00c6ff);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00c6ff, #00ffcc);
 }
