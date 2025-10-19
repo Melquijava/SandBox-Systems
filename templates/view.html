@@ -21,7 +21,7 @@
     <iframe id="view-frame"></iframe>
 
     <script>
-        const projectData = JSON.parse('{{ project|tojson|safe }}');
+        const projectData = {{ project|tojson|safe }};     
         const previewFrame = document.getElementById('view-frame');
         const sourceDocument = `
             <!DOCTYPE html>
@@ -33,6 +33,8 @@
             </head>
             <body>
                 ${projectData.html || ''}
+                
+                <!-- Escapamos a barra da tag script para segurança -->
                 <script>${projectData.js || ''}<\/script>
             </body>
             </html>
