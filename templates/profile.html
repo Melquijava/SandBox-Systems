@@ -7,7 +7,6 @@
 </head>
 <body class="dashboard-body">
     <div class="profile-page">
-        <!-- Perfil Principal -->
         <header class="profile-main-info">
             <img src="{{ profile.avatar_url }}" alt="Avatar de {{ profile.display_name }}" class="profile-avatar">
             <h1 class="profile-display-name">{{ profile.display_name }}</h1>
@@ -15,7 +14,6 @@
             <button class="follow-button">Seguir</button>
         </header>
 
-        <!-- Cards de Informação -->
         <div class="info-cards-container">
             <div class="info-card">
                 <h3>Sobre Mim</h3>
@@ -23,24 +21,15 @@
             </div>
             <div class="info-card">
                 <h3>Projetos Recentes</h3>
-                <!-- =============================================================== -->
-                <!-- || LINHA PROBLEMÁTICA TEMPORARIAMENTE REMOVIDA PARA TESTE || -->
-                <!-- =============================================================== -->
-                <p>Lista de projetos em manutenção.</p>
-                
-                <!--
                 {% if projects %}
                     <ul class="recent-projects-list">
-                        {# A linha abaixo está comentada para o teste #}
-                        {# {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %} #}
-                        {# <li><a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a></li> #}
-                        {# {% endfor %} #}
+                        {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %}
+                        <li><a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 {% else %}
                     <p>Nenhum projeto público ainda.</p>
                 {% endif %}
-                -->
-
             </div>
             <div class="info-card">
                 <h3>Estatísticas</h3>
@@ -52,7 +41,6 @@
             </div>
         </div>
 
-        <!-- Galeria de Projetos -->
         <main class="dashboard-container">
             <h2 class="section-title">Galeria de Projetos</h2>
             <div class="project-grid">
