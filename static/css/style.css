@@ -372,3 +372,92 @@ label {
     border: none;
     pointer-events: none;
 }
+
+/* Estilos para a Página de Perfil Pública */
+.profile-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #fff;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #4a90e2;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    background-color: #333; /* Cor de fundo caso a imagem falhe */
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+}
+
+.profile-bio {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+/* Estilos para a Página de Edição de Perfil */
+.auth-card label {
+    display: block;
+    text-align: left;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #ddd;
+}
+
+.auth-card textarea {
+    width: 100%;
+    min-height: 120px;
+    background-color: #333;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+.auth-card .back-link {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Links no Header do Dashboard */
+.user-info .dashboard-link {
+    color: #ccc;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.2s;
+}
+.user-info .dashboard-link:hover {
+    color: #fff;
+}
+
+/* Checkbox de Projeto Público no Editor */
+.public-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ccc;
+    margin-right: 1rem;
+}
+
+#public-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #4a90e2;
+}

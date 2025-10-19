@@ -84,6 +84,53 @@ def editor():
         return redirect(url_for('login'))
     return render_template('index.html', username=session['username'])
 
+# --- ROTAS DE PERFIL DE USUÁRIO ---
+
+@app.route('/profile/<username>')
+def profile(username):
+    """Exibe o perfil público de um usuário com seus projetos públicos."""
+    users_data = load_data()
+    user_data = users_data.get(username)
+
+    if not user_data:
+        return "Perfil não encontrado", 404
+
+    # Filtra apenas os projetos marcados como públicos
+    public_projects = {
+        pid: p for pid, p in user_data.get('projects', {}).items() if p.get('public')
+    }
+    
+    # Obtém informações do perfil, com valores padrão caso não existam
+    user_profile = user_data.get('profile', {
+        'bio': 'Este usuário ainda não adicionou uma biografia.',
+        'avatar_url': url_for('static', filename='images/default_avatar.png') # Precisaremos de uma imagem padrão
+    })
+
+    return render_template('profile.html', 
+                           username=username, 
+                           profile=user_profile, 
+                           projects=public_projects)
+
+
+@app.route('/profile/edit', methods=['GET', 'POST'])
+def edit_profile():
+    """Permite que o usuário logado edite seu perfil."""
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    username = session['username']
+    users_data = load_data()
+    user_profile = users_data[username].setdefault('profile', {})
+
+    if request.method == 'POST':
+        user_profile['bio'] = request.form.get('bio', '')
+        user_profile['avatar_url'] = request.form.get('avatar_url', '')
+        save_data(users_data)
+        flash('Perfil atualizado com sucesso!', 'success')
+        return redirect(url_for('dashboard'))
+
+    return render_template('edit_profile.html', profile=user_profile)
+
 # --- API PARA GERENCIAMENTO DE PROJETOS (ATUALIZADA) ---
 
 @app.route('/api/projects', methods=['POST'])
@@ -105,7 +152,8 @@ def create_project():
         'name': project_name,
         'html': project_data.get('html', ''),
         'css': project_data.get('css', ''),
-        'js': project_data.get('js', '')
+        'js': project_data.get('js', ''),
+        'public': project_data.get('public', False)
     }
     save_data(users_data)
     return jsonify({'success': True, 'message': 'Projeto salvo!'}), 201
@@ -133,6 +181,7 @@ def handle_project(project_id):
         users_data[username]['projects'][project_id]['html'] = update_data.get('html', '')
         users_data[username]['projects'][project_id]['css'] = update_data.get('css', '')
         users_data[username]['projects'][project_id]['js'] = update_data.get('js', '')
+        users_data[username]['projects'][project_id]['public'] = update_data.get('public', False)
         save_data(users_data)
         return jsonify({'success': True, 'message': 'Projeto atualizado!'})
 

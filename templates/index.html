@@ -1,56 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Systems_BSI Editor</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css" />
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/83421133?v=4" type="image/x-icon">
-</head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/83421133?v=4" type="image/x-icon" />
+  </head>
 
-
-<body class="editor-body">
-
+  <body class="editor-body">
     <header class="editor-header">
-        <div>
-            <h1>Systems_BSI Editor</h1>
-            <p>Desenvolvido por RA Corporation</p>
-        </div>
-        <div class="user-actions">
-            <span>Bem-vindo, {{ username }}!</span>
-            <button id="save-button">Salvar Projeto</button>
+      <div>
+        <h1>Systems_BSI Editor</h1>
+        <p>Desenvolvido por RA Corporation</p>
+      </div>
+      <div class="user-actions">
+        <span>Bem-vindo, {{ username }}!</span>
 
-            <a href="{{ url_for('dashboard') }}">Voltar ao Dashboard</a>
-
-            <a href="{{ url_for('logout') }}">Sair</a>
+        <div class="public-toggle">
+          <input type="checkbox" id="public-checkbox" />
+          <label for="public-checkbox">Público</label>
         </div>
+
+        <button id="save-button">Salvar Projeto</button>
+        <a href="{{ url_for('dashboard') }}">Voltar ao Dashboard</a>
+        <a href="{{ url_for('logout') }}">Sair</a>
+      </div>
     </header>
 
     <div class="editor-container">
-        <div class="code-editors">
-            <div class="editor-pane">
-                <label>HTML</label>
-                <div id="html-editor"></div>
-            </div>
-            <div class="editor-pane">
-                <label>CSS</label>
-                <div id="css-editor"></div>
-            </div>
-            <div class="editor-pane">
-                <label>JavaScript</label>
-                <div id="js-editor"></div>
-            </div>
+      <div class="code-editors">
+        <div class="editor-pane">
+          <label>HTML</label>
+          <div id="html-editor"></div>
         </div>
+        <div class="editor-pane">
+          <label>CSS</label>
+          <div id="css-editor"></div>
+        </div>
+        <div class="editor-pane">
+          <label>JavaScript</label>
+          <div id="js-editor"></div>
+        </div>
+      </div>
 
-        <div class="preview">
-            <label>Preview</label>
-            <iframe id="preview-frame"></iframe>
-        </div>
+      <div class="preview">
+        <label>Preview</label>
+        <iframe id="preview-frame"></iframe>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
@@ -59,6 +60,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-
+  </body>
 </html>

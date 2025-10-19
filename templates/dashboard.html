@@ -1,98 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Dashboard - Systems_BSI Editor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body class="dashboard-body">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body class="dashboard-body">
     <header class="dashboard-header">
-        <h1>Dashboard de Projetos</h1>
-        <div class="user-info">
-            <span>Bem-vindo, {{ username }}!</span>
-            <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
-        </div>
+      <h1>Dashboard de Projetos</h1>
+      <div class="user-info">
+        <span>Bem-vindo, {{ username }}!</span>
+        <a href="{{ url_for('profile', username=username) }}" class="dashboard-link" target="_blank">Ver Perfil Público</a>
+        <a href="{{ url_for('edit_profile') }}" class="dashboard-link">Editar Perfil</a>
+        <a href="{{ url_for('logout') }}" class="logout-button">Sair</a>
+      </div>
     </header>
 
     <main class="dashboard-container">
-        <a href="{{ url_for('editor') }}" class="new-project-button">
-            + Criar Novo Projeto
-        </a>
+      <a href="{{ url_for('editor') }}" class="new-project-button">+ Criar Novo Projeto</a>
 
-        <h2>Meus Projetos</h2>
-        <div class="project-grid">
-            {% for project_id, project in projects.items() %}
-            <div class="project-card" data-project="{{ project|tojson|forceescape }}">
-                <h3>{{ project.name }}</h3>
-                
-                <div class="preview-container">
-                    <iframe class="project-preview-frame" scrolling="no"></iframe>
-                </div>
-                
-                <div class="card-actions">
-                    <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
-                    <a href="{{ url_for('editor') }}?project_id={{ project_id }}" class="action-button edit-button">Editar</a>
-                    <button class="action-button share-button" data-link="{{ url_for('view', project_id=project_id, _external=True) }}">Compartilhar</button>
-                    <button class="action-button delete-button" data-project-id="{{ project_id }}">Excluir</button>
-                </div>
+      <h2>Meus Projetos</h2>
+      <div class="project-grid">
+        {% for project_id, project in projects.items() %}
+          <div class="project-card" data-project="{{ project|tojson|forceescape }}">
+            <h3>{{ project.name }}</h3>
+
+            <div class="preview-container">
+              <iframe class="project-preview-frame" scrolling="no"></iframe>
             </div>
-            {% else %}
-            <p>Você ainda não tem projetos salvos. Crie um novo!</p>
-            {% endfor %}
-        </div>
+
+            <div class="card-actions">
+              <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
+              <a href="{{ url_for('editor') }}?project_id={{ project_id }}" class="action-button edit-button">Editar</a>
+              <button class="action-button share-button" data-link="{{ url_for('view', project_id=project_id, _external=True) }}">Compartilhar</button>
+              <button class="action-button delete-button" data-project-id="{{ project_id }}">Excluir</button>
+            </div>
+          </div>
+        {% else %}
+          <p>Você ainda não tem projetos salvos. Crie um novo!</p>
+        {% endfor %}
+      </div>
     </main>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.project-card').forEach(card => {
-            const iframe = card.querySelector('.project-preview-frame');
-            const projectDataString = card.dataset.project;
-            
-            if (iframe && projectDataString) {
-                const projectData = JSON.parse(projectDataString);
-                const previewDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-                previewDoc.open();
-                previewDoc.write(`
-                    <html>
-                    <head><style>${projectData.css}</style></head>
-                    <body style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%; overflow: hidden;">${projectData.html}</body>
-                    </html>
-                `);
-                previewDoc.close();
-            }
-        });
-
-        const projectGrid = document.querySelector('.project-grid');
-
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.project-card').forEach((card) => {
+          const iframe = card.querySelector('.project-preview-frame')
+          const projectDataString = card.dataset.project
+      
+          if (iframe && projectDataString) {
+            const projectData = JSON.parse(projectDataString)
+            const previewDoc = iframe.contentDocument || iframe.contentWindow.document
+      
+            previewDoc.open()
+            previewDoc.write(`
+                          <html>
+                          <head><style>${projectData.css}</style></head>
+                          <body style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%; overflow: hidden;">${projectData.html}</body>
+                          </html>
+                      `)
+            previewDoc.close()
+          }
+        })
+      
+        const projectGrid = document.querySelector('.project-grid')
+      
         projectGrid.addEventListener('click', async (e) => {
-            if (e.target.classList.contains('share-button')) {
-                const link = e.target.dataset.link;
-                navigator.clipboard.writeText(link).then(() => {
-                    e.target.textContent = 'Copiado!';
-                    setTimeout(() => e.target.textContent = 'Compartilhar', 2000);
-                });
-            }
-
-            if (e.target.classList.contains('delete-button')) {
-                const projectId = e.target.dataset.projectId;
-                if (confirm('Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.')) {
-                    try {
-                        const response = await fetch(`/api/projects/${projectId}`, {
-                            method: 'DELETE'
-                        });
-                        if (response.ok) {
-                            e.target.closest('.project-card').remove();
-                        } else {
-                            alert('Erro ao excluir o projeto.');
-                        }
-                    } catch (error) {
-                        alert('Erro de conexão ao tentar excluir.');
-                    }
+          if (e.target.classList.contains('share-button')) {
+            const link = e.target.dataset.link
+            navigator.clipboard.writeText(link).then(() => {
+              e.target.textContent = 'Copiado!'
+              setTimeout(() => (e.target.textContent = 'Compartilhar'), 2000)
+            })
+          }
+      
+          if (e.target.classList.contains('delete-button')) {
+            const projectId = e.target.dataset.projectId
+            if (confirm('Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.')) {
+              try {
+                const response = await fetch(`/api/projects/${projectId}`, {
+                  method: 'DELETE'
+                })
+                if (response.ok) {
+                  e.target.closest('.project-card').remove()
+                } else {
+                  alert('Erro ao excluir o projeto.')
                 }
+              } catch (error) {
+                alert('Erro de conexão ao tentar excluir.')
+              }
             }
-        });
-    });
+          }
+        })
+      })
     </script>
-</body>
+  </body>
 </html>

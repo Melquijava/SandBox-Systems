@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    
+    const publicCheckbox = document.getElementById('public-checkbox');
     const htmlEditor = CodeMirror(document.getElementById('html-editor'), { mode: 'xml', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
     const cssEditor = CodeMirror(document.getElementById('css-editor'), { mode: 'css', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
     const jsEditor = CodeMirror(document.getElementById('js-editor'), { mode: 'javascript', theme: 'dracula', lineNumbers: true, lineWrapping: true, autoCloseBrackets: true });
@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
             htmlEditor.setValue(projectData.html || '');
             cssEditor.setValue(projectData.css || '');
             jsEditor.setValue(projectData.js || '');
+
+            publicCheckbox.checked = projectData.public || false;
             
             currentProjectId = projectId; 
             
@@ -87,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: projectName,
                     html: htmlEditor.getValue(),
                     css: cssEditor.getValue(),
-                    js: jsEditor.getValue()
+                    js: jsEditor.getValue(),
+                    public: publicCheckbox.checked
                 };
             }
 
