@@ -12,32 +12,30 @@
     <iframe id="preview-frame" data-project="{{ project|tojson|forceescape }}"></iframe>
 
     <script>
-    const previewFrame = document.getElementById('preview-frame');
-    const projectJson = previewFrame.dataset.project;
-    const project = JSON.parse(projectJson);
+        const previewFrame = document.getElementById('preview-frame');
 
-    const previewDoc = previewFrame.contentWindow.document;
+        const projectJson = previewFrame.dataset.project;
+        
+        const project = JSON.parse(projectJson);
 
-    const fullHtml = `
-        <!DOCTYPE html>
-        <html lang="pt-BR">
-        <head>
-            <meta charset="UTF-8">
-            <style>${project.css || ''}</style>
-        </head>
-        <body>
-            ${project.html || ''}
-            
-            <!-- O JavaScript é injetado aqui DENTRO do corpo -->
-            <script>
-                ${project.js || ''}
-            </script>
-        </body>
-        </html>
-    `;
-    previewDoc.open();
-    previewDoc.write(fullHtml);
-    previewDoc.close();
-</script>
+        const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+
+        previewDoc.open();
+        previewDoc.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>${project.css}</style>
+            </head>
+            <body>
+                ${project.html}
+                <script>
+                     ${project.js}
+                </script>
+            </body>
+            </html>
+        `);
+        previewDoc.close();
+    </script>
 </body>
 </html>
