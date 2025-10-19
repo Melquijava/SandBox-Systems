@@ -2,40 +2,20 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>{{ project.name }} - Visualização</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.name }}</title>
+
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-        iframe { width: 100%; height: 100%; border: none; }
+        {{ project.css|safe }}
     </style>
 </head>
 <body>
-    <iframe id="preview-frame" data-project="{{ project|tojson|forceescape }}"></iframe>
+
+    {{ project.html|safe }}
 
     <script>
-    const previewFrame = document.getElementById('preview-frame');
-    const projectJson = previewFrame.dataset.project;
-    const project = JSON.parse(projectJson);
-
-    const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-    const jsCode = project.js || '';
-
-    const fullHtml = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>${project.css || ''}</style>
-        </head>
-        <body>
-            ${project.html || ''}
-            
-            ${jsCode ? `<script>${jsCode}</script>` : ''}
-        </body>
-        </html>
-    `;
-
-    previewDoc.open();
-    previewDoc.write(fullHtml);
-    previewDoc.close();
+        {{ project.js|safe }}
     </script>
+    
 </body>
 </html>
