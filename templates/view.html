@@ -29,13 +29,14 @@
             </head>
             <body>
                 ${project.html}
-                <script>
-                     ${project.js}
-                </script>
             </body>
             </html>
         `);
         previewDoc.close();
+
+        const scriptTag = previewDoc.createElement('script');
+        scriptTag.textContent = project.js;
+        previewDoc.body.appendChild(scriptTag);
     </script>
 </body>
 </html>
