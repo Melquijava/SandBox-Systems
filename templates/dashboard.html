@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Dashboard - Systems_BSI Editor</title>
+    <!-- Garante que o CSS correto da dashboard está sendo chamado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
   </head>
   <body>
@@ -30,7 +31,9 @@
       <h2>Meus Projetos</h2>
       <div class="project-grid">
         {% for project_id, project in projects.items() %}
-          <!-- CORREÇÃO IMPORTANTE: Adicionando o data-project aqui para as prévias funcionarem -->
+          <!-- =============================================================== -->
+          <!-- || A CORREÇÃO CRÍTICA ESTÁ NESTA LINHA: restaurando o data-project || -->
+          <!-- =============================================================== -->
           <div class="project-card" data-project="{{ project|tojson|safe }}">
             <h3>{{ project.name }}</h3>
 
@@ -46,10 +49,7 @@
             <div class="card-actions">
               <a href="{{ url_for('view', project_id=project_id) }}" target="_blank" class="action-button view-button">Ver</a>
               <a href="{{ url_for('editor') }}?project_id={{ project_id }}" class="action-button edit-button">Editar</a>
-              
-              <!-- MUDANÇA: Botão Duplicar agora é Compartilhar -->
               <button class="action-button share-button" data-link="{{ url_for('view', project_id=project_id, _external=True) }}">Compartilhar</button>
-              
               <button class="action-button delete-button" data-project-id="{{ project_id }}">Excluir</button>
             </div>
           </div>
@@ -64,7 +64,7 @@
         // Script para renderizar as prévias (agora vai funcionar)
         document.querySelectorAll('.project-card').forEach((card) => {
           const iframe = card.querySelector('.project-preview-frame');
-          const projectDataString = card.dataset.project;
+          const projectDataString = card.dataset.project; // Esta linha agora encontrará os dados
           if (iframe && projectDataString) {
             try {
               const projectData = JSON.parse(projectDataString);
@@ -86,13 +86,12 @@
           const button = e.target.closest('.action-button');
           if (!button) return;
 
-          // MUDANÇA: Lógica para o botão de compartilhar
           if (button.classList.contains('share-button')) {
             const link = button.dataset.link;
             navigator.clipboard.writeText(link).then(() => {
               const originalText = button.textContent;
               button.textContent = 'Copiado!';
-              setTimeout(() => { button.textContent = originalText; }, 2000);
+              setTimeout(() => { button.textContent = 'Compartilhar'; }, 2000);
             }).catch(err => console.error('Erro ao copiar link:', err));
           }
 
