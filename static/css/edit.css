@@ -1,3 +1,33 @@
+/* =================================================================== */
+/*             STYLESHEET COMPLETO - SYSTEMS_BSI EDITOR                */
+/* =================================================================== */
+
+/* --- VARIAVEIS GLOBAIS DE COR (Identidade Visual) --- */
+:root {
+    --primary-color: #61dafb;
+    --dark-bg: #1e1e1e;
+    --medium-bg: #252526;
+    --dark-border: #0d82a5;
+    --text-light: #d4d4d4;
+    --text-dark: #20232a;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+}
+
+/* --- ESTILOS GLOBAIS --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
 /* === REESTILIZAÇÃO DA PÁGINA DE EDITAR PERFIL === */
 
 /* Aumenta o tamanho do card principal */
