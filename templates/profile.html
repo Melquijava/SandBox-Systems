@@ -23,7 +23,7 @@
                 <h3>Projetos Recentes</h3>
                 {% if projects %}
                     <ul class="recent-projects-list">
-                        {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %}
+                        {% for project_id, project in projects|slice(3) %}
                         <li><a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a></li>
                         {% endfor %}
                     </ul>
@@ -44,7 +44,7 @@
         <main class="dashboard-container">
             <h2 class="section-title">Galeria de Projetos</h2>
             <div class="project-grid">
-                {% for project_id, project in projects.items() %}
+                {% for project_id, project in projects %}
                 <div class="project-card" data-project="{{ project|tojson|safe }}">
                     <h3>{{ project.name }}</h3>
                     <div class="preview-container">

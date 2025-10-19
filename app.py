@@ -108,6 +108,7 @@ def view(project_id):
         
     return render_template('view.html', project=found_project)
 
+
 @app.route('/profile/<username>')
 def profile(username):
     """Exibe o perfil público de um usuário, buscando dados dinâmicos do GitHub."""
@@ -117,7 +118,14 @@ def profile(username):
     if not user_data:
         return "Perfil não encontrado", 404
 
-    public_projects = {pid: p for pid, p in user_data.get('projects', {}).items() if p.get('public')}
+    public_projects_dict = {
+        pid: p for pid, p in user_data.get('projects', {}).items() if p.get('public')
+    }
+
+    sorted_public_projects = sorted(
+        public_projects_dict.items(), 
+        key=lambda item: item[1].get('name', '').lower()
+    )
     
     user_profile = user_data.get('profile', {})
     github_username = user_profile.get('github_username')
@@ -135,7 +143,6 @@ def profile(username):
             contrib_response.raise_for_status()
             contrib_data = contrib_response.json()
             contributions_count = sum(day.get('count', 0) for day in contrib_data.get('contributions', []))
-
         except requests.exceptions.RequestException as e:
             print(f"Erro ao buscar dados do GitHub para '{github_username}': {e}")
             followers_count = "Erro"
@@ -146,12 +153,15 @@ def profile(username):
         'bio': user_profile.get('bio', 'Nenhuma biografia adicionada.'),
         'avatar_url': user_profile.get('avatar_url', url_for('static', filename='images/default_avatar.png')),
         'about_me': user_profile.get('about_me', 'Nenhuma informação adicional.'),
-        'stats_projects': len(public_projects),
+        'stats_projects': len(public_projects_dict),
         'stats_followers': followers_count,
         'stats_github': contributions_count
     }
 
-    return render_template('profile.html', username=username, profile=profile_data, projects=public_projects)
+    return render_template('profile.html', 
+                           username=username, 
+                           profile=profile_data, 
+                           projects=sorted_public_projects) 
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
 def edit_profile():
