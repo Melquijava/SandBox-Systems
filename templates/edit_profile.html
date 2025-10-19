@@ -6,11 +6,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/edit.css') }}">
 </head>
 <body class="auth-body">
-    <div class="auth-card edit-profile-card">
+    <div class="edit-profile-card">
         <h1>Editar Perfil</h1>
         
         <form method="post" class="profile-form-grid">
-            <!-- Coluna da Esquerda: Avatar -->
             <div class="avatar-section">
                 <h2 class="section-heading">Foto de Perfil</h2>
                 <img src="{{ profile.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="Avatar atual" id="avatar-preview" class="profile-avatar-preview">
@@ -21,9 +20,7 @@
                 <input type="hidden" name="avatar_base64" id="avatar_base64">
             </div>
 
-            <!-- Coluna da Direita: Campos de Texto -->
             <div class="form-fields-section">
-                <!-- Seção de Informações Principais -->
                 <div class="form-section-card">
                     <h2 class="section-heading">Informações Principais</h2>
                     <div class="form-group">
@@ -40,7 +37,6 @@
                     </div>
                 </div>
 
-                <!-- Seção de Links -->
                 <div class="form-section-card">
                     <h2 class="section-heading">Links e Redes Sociais</h2>
                     <div class="form-group">
@@ -57,7 +53,6 @@
                     </div>
                 </div>
 
-                <!-- Seção de Integração com GitHub -->
                 <div class="form-section-card">
                     <h2 class="section-heading">Integração com GitHub</h2>
                     <div class="form-group">
@@ -67,8 +62,8 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit">Salvar Alterações</button>
                     <a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
+                    <button type="submit">Salvar Alterações</button>
                 </div>
             </div>
         </form>

@@ -1,149 +1,125 @@
-/* =================================================================== */
-/*             STYLESHEET COMPLETO - SYSTEMS_BSI EDITOR                */
-/* =================================================================== */
-
-/* --- VARIAVEIS GLOBAIS DE COR (Identidade Visual) --- */
-:root {
-    --primary-color: #61dafb;
-    --dark-bg: #1e1e1e;
-    --medium-bg: #252526;
-    --dark-border: #0d82a5;
-    --text-light: #d4d4d4;
-    --text-dark: #20232a;
-    --success-color: #28a745;
-    --danger-color: #dc3545;
-    --warning-color: #ffc107;
-}
-
-/* --- ESTILOS GLOBAIS --- */
 body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    background-color: var(--dark-bg);
-    color: var(--text-light);
-}
-
-* {
-    box-sizing: border-box;
-}
-
-
-/* === REESTILIZAÇÃO DA PÁGINA DE EDITAR PERFIL === */
-
-/* Aumenta o tamanho do card principal */
-.edit-profile-card {
-    max-width: 1024px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     padding: 2rem;
+    background-color: #0d1117;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #c9d1d9;
 }
 
-/* Cria o layout de 2 colunas */
+.edit-profile-card {
+    width: 100%;
+    max-width: 1024px;
+    background-color: #161b22;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    border: 1px solid #30363d;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.edit-profile-card h1 {
+    color: #4a90e2; 
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
 .profile-form-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Padrão de 1 coluna para mobile */
+    grid-template-columns: 1fr;
     gap: 2rem;
 }
 
-/* Em telas maiores (lg), muda para 3 colunas (1 para avatar, 2 para campos) */
 @media (min-width: 1024px) {
     .profile-form-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 250px 1fr;
+        gap: 3rem;
     }
 }
 
 .avatar-section {
-    grid-column: span 1;
     text-align: center;
 }
 
-.form-fields-section {
-    grid-column: span 1;
-}
-
-@media (min-width: 1024px) {
-    .form-fields-section {
-        grid-column: span 2;
-    }
-}
-
-/* Títulos das seções */
 .section-heading {
     font-size: 1.25rem;
-    font-weight: bold;
-    color: #ccc;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #444;
+    font-weight: 600;
+    color: #c9d1d9;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #30363d;
 }
 
-/* Preview do avatar */
 .profile-avatar-preview {
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     object-fit: cover;
     margin: 1rem auto;
-    border: 3px solid #555;
-    background-color: #333;
+    border: 3px solid #30363d;
+    background-color: #0d1117;
 }
 
-/* Esconde o input de arquivo padrão */
 .hidden-file-input {
     display: none;
 }
 
-/* Estiliza o label para parecer um botão de upload */
 .avatar-upload-label {
     display: inline-block;
-    background-color: #373e47;
-    color: #ccc;
-    padding: 10px 15px;
+    width: 100%;
+    background-color: #21262d;
+    color: #c9d1d9;
+    padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s;
-    border: 1px solid #555;
+    border: 1px solid #30363d;
+    font-weight: 600;
 }
 
 .avatar-upload-label:hover {
-    background-color: #4a525d;
+    background-color: #30363d;
+    border-color: #4a90e2;
 }
 
-/* Card para agrupar campos */
 .form-section-card {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: #0d1117;
     padding: 1.5rem;
     border-radius: 8px;
     margin-bottom: 1.5rem;
+    border: 1px solid #30363d;
 }
 
-/* Grupo de label + input */
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 }
 
-/* Estilos para labels e inputs */
 .form-label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #aaa;
+    color: #8b949e;
 }
 
 .form-input,
 .form-textarea {
     width: 100%;
-    background-color: #1c2128;
-    border: 1px solid #444;
-    color: #fff;
+    background-color: #010409;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
     padding: 12px;
     border-radius: 6px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 1rem;
 }
 
 .form-input:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: #58a6ff;
-    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
 }
 
 .form-textarea {
@@ -151,12 +127,38 @@ body {
     resize: vertical;
 }
 
-/* Ações do formulário no final */
 .form-actions {
     margin-top: 2rem;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-actions button {
+    background-color: #4a90e2;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.form-actions button:hover {
+    background-color: #58a6ff;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
 }
 
 .form-actions .back-link {
-    margin-left: 1rem;
+    color: #8b949e;
+    text-decoration: none;
+    padding: 12px 0;
+    font-weight: 500;
+}
+
+.form-actions .back-link:hover {
+    color: #58a6ff;
 }
