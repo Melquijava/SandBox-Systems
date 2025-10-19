@@ -23,15 +23,24 @@
             </div>
             <div class="info-card">
                 <h3>Projetos Recentes</h3>
+                <!-- =============================================================== -->
+                <!-- || LINHA PROBLEMÁTICA TEMPORARIAMENTE REMOVIDA PARA TESTE || -->
+                <!-- =============================================================== -->
+                <p>Lista de projetos em manutenção.</p>
+                
+                <!--
                 {% if projects %}
                     <ul class="recent-projects-list">
-                        {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %}
-                        <li><a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a></li>
-                        {% endfor %}
+                        {# A linha abaixo está comentada para o teste #}
+                        {# {% for project_id, project in projects.items()|list|sort(attribute='name')|slice(3) %} #}
+                        {# <li><a href="{{ url_for('view', project_id=project_id) }}">{{ project.name }}</a></li> #}
+                        {# {% endfor %} #}
                     </ul>
                 {% else %}
                     <p>Nenhum projeto público ainda.</p>
                 {% endif %}
+                -->
+
             </div>
             <div class="info-card">
                 <h3>Estatísticas</h3>
