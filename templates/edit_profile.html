@@ -25,6 +25,18 @@
         <textarea id="about_me" name="about_me" placeholder="Fale mais sobre você, seus interesses e habilidades.">{{ profile.about_me or '' }}</textarea>
 
         <hr style="border-color: #444; margin: 1rem 0;" />
+        <p style="text-align: center; color: #888;">Links Úteis</p>
+
+        <label for="link_portfolio">Link do Portfólio</label>
+        <input type="url" id="link_portfolio" name="link_portfolio" placeholder="https://seusite.com" value="{{ profile.link_portfolio or '' }}" />
+
+        <label for="link_linkedin">Link do LinkedIn</label>
+        <input type="url" id="link_linkedin" name="link_linkedin" placeholder="https://linkedin.com/in/seu-usuario" value="{{ profile.link_linkedin or '' }}" />
+
+        <label for="link_github_profile">Link do Perfil GitHub</label>
+        <input type="url" id="link_github_profile" name="link_github_profile" placeholder="https://github.com/seu-usuario" value="{{ profile.link_github_profile or '' }}" />
+
+        <hr style="border-color: #444; margin: 1rem 0;" />
         <p style="text-align: center; color: #888;">Informações para o Card de Estatísticas</p>
 
         <hr style="border-color: #444; margin: 1rem 0;" />

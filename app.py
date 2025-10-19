@@ -112,29 +112,22 @@ def view(project_id):
 
 @app.route('/profile/<username>')
 def profile(username):
-    """Exibe o perfil público de um usuário, buscando dados dinâmicos do GitHub."""
     users_data = load_data()
     user_data = users_data.get(username)
 
     if not user_data:
         return "Perfil não encontrado", 404
 
-    public_projects_dict = {
-        pid: p for pid, p in user_data.get('projects', {}).items() if p.get('public')
-    }
-
+    public_projects_dict = {pid: p for pid, p in user_data.get('projects', {}).items() if p.get('public')}
+    
     projects_list = []
     for pid, pdata in public_projects_dict.items():
-        project_object = pdata.copy()  
+        project_object = pdata.copy()
         project_object['id'] = pid
         projects_list.append(project_object)
 
-    sorted_projects = sorted(
-        projects_list,
-        key=lambda p: p.get('name', '').lower()
-    )
-
-
+    sorted_projects = sorted(projects_list, key=lambda p: p.get('name', '').lower())
+    
     user_profile = user_data.get('profile', {})
     github_username = user_profile.get('github_username')
     
@@ -163,7 +156,11 @@ def profile(username):
         'about_me': user_profile.get('about_me', 'Nenhuma informação adicional.'),
         'stats_projects': len(public_projects_dict),
         'stats_followers': followers_count,
-        'stats_github': contributions_count
+        'stats_github': contributions_count,
+
+        'link_portfolio': user_profile.get('link_portfolio'),
+        'link_linkedin': user_profile.get('link_linkedin'),
+        'link_github_profile': user_profile.get('link_github_profile')
     }
 
     return render_template('profile.html', 
@@ -174,7 +171,6 @@ def profile(username):
     
 @app.route('/profile/edit', methods=['GET', 'POST'])
 def edit_profile():
-    """Permite que o usuário logado edite seu perfil."""
     if 'username' not in session:
         return redirect(url_for('login'))
     
@@ -187,6 +183,10 @@ def edit_profile():
         user_profile['bio'] = request.form.get('bio', '')
         user_profile['about_me'] = request.form.get('about_me', '')
         user_profile['github_username'] = request.form.get('github_username', '')
+        
+        user_profile['link_portfolio'] = request.form.get('link_portfolio', '')
+        user_profile['link_linkedin'] = request.form.get('link_linkedin', '')
+        user_profile['link_github_profile'] = request.form.get('link_github_profile', '')
 
         new_avatar_base64 = request.form.get('avatar_base64')
         if new_avatar_base64:
@@ -197,6 +197,7 @@ def edit_profile():
         return redirect(url_for('dashboard'))
 
     return render_template('edit_profile.html', profile=user_profile, username=username)
+
 
 
 @app.route('/api/projects', methods=['POST'])

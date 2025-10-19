@@ -485,3 +485,26 @@ label {
     margin: 10px auto;
     border: 3px solid #555;
 }
+
+/* Estilos para a nova lista de Links Úteis */
+.useful-links-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.useful-links-list li {
+    margin-bottom: 0.75rem;
+}
+
+.useful-links-list a {
+    color: #58a6ff; /* Azul claro */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+}
+
+.useful-links-list a:hover {
+    text-decoration: underline;
+    color: #79c0ff; /* Azul mais claro */
+}
