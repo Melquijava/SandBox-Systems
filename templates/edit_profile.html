@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Editar Perfil</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body class="auth-body">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body class="auth-body">
     <div class="auth-card">
-        <h1>Editar Perfil</h1>
-        <form method="post">
-            <input type="hidden" name="avatar_base64" id="avatar_base64">
+      <h1>Editar Perfil</h1>
+      <form method="post">
+        <input type="hidden" name="avatar_base64" id="avatar_base64" />
 
-            <label for="avatar_upload">Foto de Perfil</label>
-            <img src="{{ profile.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="Avatar atual" id="avatar-preview" class="profile-avatar-preview">
-            <input type="file" id="avatar_upload" accept="image/png, image/jpeg, image/gif">
+        <label for="avatar_upload">Foto de Perfil</label>
+        <img src="{{ profile.avatar_url or url_for('static', filename='images/default_avatar.png') }}" alt="Avatar atual" id="avatar-preview" class="profile-avatar-preview" />
+        <input type="file" id="avatar_upload" accept="image/png, image/jpeg, image/gif" />
 
-            <label for="display_name">Nome de Exibição</label>
-            <input type="text" id="display_name" name="display_name" placeholder="Como você quer ser chamado?" value="{{ profile.display_name or username }}">
+        <label for="display_name">Nome de Exibição</label>
+        <input type="text" id="display_name" name="display_name" placeholder="Como você quer ser chamado?" value="{{ profile.display_name or username }}" />
 
-            <label for="bio">Biografia Curta (abaixo do nome)</label>
-            <textarea id="bio" name="bio" placeholder="Ex: Programador & Tech Enthusiast">{{ profile.bio or '' }}</textarea>
+        <label for="bio">Biografia Curta (abaixo do nome)</label>
+        <textarea id="bio" name="bio" placeholder="Ex: Programador & Tech Enthusiast">{{ profile.bio or '' }}</textarea>
 
-            <label for="about_me">Sobre Mim (card)</label>
-            <textarea id="about_me" name="about_me" placeholder="Fale mais sobre você, seus interesses e habilidades.">{{ profile.about_me or '' }}</textarea>
-            
-            <hr style="border-color: #444; margin: 1rem 0;">
-            <p style="text-align: center; color: #888;">Informações para o Card de Estatísticas</p>
-            
-            <label for="stats_followers">Seguidores (texto)</label>
-            <input type="text" id="stats_followers" name="stats_followers" placeholder="Ex: 1.245" value="{{ profile.stats_followers or '0' }}">
-            
-            <label for="stats_github">Contribuições GitHub (texto)</label>
-            <input type="text" id="stats_github" name="stats_github" placeholder="Ex: 102" value="{{ profile.stats_github or '0' }}">
+        <label for="about_me">Sobre Mim (card)</label>
+        <textarea id="about_me" name="about_me" placeholder="Fale mais sobre você, seus interesses e habilidades.">{{ profile.about_me or '' }}</textarea>
 
-            <button type="submit">Salvar Alterações</button>
-        </form>
-        <a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
+        <hr style="border-color: #444; margin: 1rem 0;" />
+        <p style="text-align: center; color: #888;">Informações para o Card de Estatísticas</p>
+
+        <hr style="border-color: #444; margin: 1rem 0;" />
+        <p style="text-align: center; color: #888;">Integração com o GitHub</p>
+
+        <label for="github_username">Seu Nome de Usuário no GitHub</label>
+        <input type="text" id="github_username" name="github_username" placeholder="Ex: octocat" value="{{ profile.github_username or '' }}" />
+
+        <button type="submit">Salvar Alterações</button>
+      </form>
+      <a href="{{ url_for('dashboard') }}" class="back-link">Voltar ao Dashboard</a>
     </div>
 
     <script>
-        document.getElementById('avatar_upload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('avatar-preview').src = e.target.result;
-                document.getElementById('avatar_base64').value = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
+      document.getElementById('avatar_upload').addEventListener('change', function (event) {
+        const file = event.target.files[0]
+        if (!file) return
+        const reader = new FileReader()
+        reader.onload = function (e) {
+          document.getElementById('avatar-preview').src = e.target.result
+          document.getElementById('avatar_base64').value = e.target.result
+        }
+        reader.readAsDataURL(file)
+      })
     </script>
-</body>
+  </body>
 </html>
