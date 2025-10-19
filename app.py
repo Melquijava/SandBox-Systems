@@ -109,6 +109,7 @@ def view(project_id):
     return render_template('view.html', project=found_project)
 
 
+
 @app.route('/profile/<username>')
 def profile(username):
     """Exibe o perfil público de um usuário, buscando dados dinâmicos do GitHub."""
@@ -122,11 +123,18 @@ def profile(username):
         pid: p for pid, p in user_data.get('projects', {}).items() if p.get('public')
     }
 
-    sorted_public_projects = sorted(
-        public_projects_dict.items(), 
-        key=lambda item: item[1].get('name', '').lower()
+    projects_list = []
+    for pid, pdata in public_projects_dict.items():
+        project_object = pdata.copy()  
+        project_object['id'] = pid
+        projects_list.append(project_object)
+
+    sorted_projects = sorted(
+        projects_list,
+        key=lambda p: p.get('name', '').lower()
     )
-    
+
+
     user_profile = user_data.get('profile', {})
     github_username = user_profile.get('github_username')
     
@@ -161,8 +169,9 @@ def profile(username):
     return render_template('profile.html', 
                            username=username, 
                            profile=profile_data, 
-                           projects=sorted_public_projects) 
-
+                           projects=sorted_projects)
+    
+    
 @app.route('/profile/edit', methods=['GET', 'POST'])
 def edit_profile():
     """Permite que o usuário logado edite seu perfil."""

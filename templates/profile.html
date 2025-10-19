@@ -7,7 +7,6 @@
 </head>
 <body class="dashboard-body">
     <div class="profile-page">
-        <!-- Perfil Principal -->
         <header class="profile-main-info">
             <img src="{{ profile.avatar_url }}" alt="Avatar de {{ profile.display_name }}" class="profile-avatar">
             <h1 class="profile-display-name">{{ profile.display_name }}</h1>
@@ -15,7 +14,6 @@
             <button class="follow-button">Seguir</button>
         </header>
 
-        <!-- Cards de Informação -->
         <div class="info-cards-container">
             <div class="info-card">
                 <h3>Sobre Mim</h3>
@@ -25,12 +23,8 @@
                 <h3>Projetos Recentes</h3>
                 {% if projects %}
                     <ul class="recent-projects-list">
-                        <!-- =============================================================== -->
-                        <!-- || CORREÇÃO DEFINITIVA: Descompactando a lista manualmente || -->
-                        <!-- =============================================================== -->
-                        {% for item in projects|slice(3) %}
-                        {# item[0] é o project_id, item[1] é o dicionário do projeto #}
-                        <li><a href="{{ url_for('view', project_id=item[0]) }}">{{ item[1].name }}</a></li>
+                        {% for project in projects|slice(3) %}
+                        <li><a href="{{ url_for('view', project_id=project.id) }}">{{ project.name }}</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -47,20 +41,17 @@
             </div>
         </div>
 
-        <!-- Galeria de Projetos -->
         <main class="dashboard-container">
             <h2 class="section-title">Galeria de Projetos</h2>
             <div class="project-grid">
-                <!-- Aplicando a mesma correção aqui para consistência -->
-                {% for item in projects %}
-                {# item[0] é o project_id, item[1] é o dicionário do projeto #}
-                <div class="project-card" data-project="{{ item[1]|tojson|safe }}">
-                    <h3>{{ item[1].name }}</h3>
+                {% for project in projects %}
+                <div class="project-card" data-project="{{ project|tojson|safe }}">
+                    <h3>{{ project.name }}</h3>
                     <div class="preview-container">
                         <iframe class="project-preview-frame" scrolling="no"></iframe>
                     </div>
                     <div class="card-actions">
-                        <a href="{{ url_for('view', project_id=item[0]) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
+                        <a href="{{ url_for('view', project_id=project.id) }}" target="_blank" class="action-button view-button">Ver Projeto</a>
                     </div>
                 </div>
                 {% else %}
