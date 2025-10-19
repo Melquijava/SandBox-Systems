@@ -77,7 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 projectData = {
                     html: htmlEditor.getValue(),
                     css: cssEditor.getValue(),
-                    js: jsEditor.getValue()
+                    js: jsEditor.getValue(),
+                    public: publicCheckbox.checked 
                 };
             } else { 
                 const projectName = prompt("Digite um nome para o seu novo projeto:");
